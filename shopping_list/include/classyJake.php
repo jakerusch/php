@@ -106,7 +106,7 @@ END;
 	}
 
 	private function createConn() {
-		$servername = "https://php-nwcc.rhcloud.com/phpmyadmin/";
+		$servername = "mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/";
 		$username = "shopper";
 		$password = "aE68thAMusHLHmr5";
 		$db = "php";
