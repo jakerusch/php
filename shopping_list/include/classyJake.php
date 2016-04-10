@@ -60,7 +60,9 @@ echo ucwords($this->getTitle());
     <!-- jquery sortable -->
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>    
+  	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  	<!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 </head>
 <body background="img/woodbackground.png">
 END;
