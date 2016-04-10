@@ -106,13 +106,17 @@ END;
 	}
 
 	private function createConn() {
-		$servername = "mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/";
-		$username = "shopper";
-		$password = "aE68thAMusHLHmr5";
-		$db = "php";
+
+	$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "", getenv('OPENSHIFT_MYSQL_DB_PORT'));
+		// mysqli_select_db($mysqlCon, getenv('OPENSHIFT_APP_NAME')) or die("Error: " . mysqli_error($mysqlCon));
+
+		// $servername = getenv("OPENSHIFT_MYSQL_DB_HOST");
+		// $username = "shopper";
+		// $password = "aE68thAMusHLHmr5";
+		// $db = "php";
 
 		// Create connection
-		$conn = mysqli_connect($servername, $username, $password, $db);
+		// $conn = mysqli_connect($servername, $username, $password, $db);
 
 		// Check connection
 		if (!$conn) {
