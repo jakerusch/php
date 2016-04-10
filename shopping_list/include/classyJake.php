@@ -73,7 +73,7 @@ END;
 		echo <<<END
 	<div class="container">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4 col-xs-12">
+		<div class="col-md-4 col-md-offset-4 col-xs-1">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
