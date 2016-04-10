@@ -106,10 +106,10 @@ END;
 	}
 
 	private function createConn() {
-		$servername = "localhost";
-		$username = "root";
-		$password = "";
-		$db = "shopping_list";
+		$servername = "https://php-nwcc.rhcloud.com/phpmyadmin/";
+		$username = "shopper";
+		$password = "aE68thAMusHLHmr5";
+		$db = "php";
 
 		// Create connection
 		$conn = mysqli_connect($servername, $username, $password, $db);
