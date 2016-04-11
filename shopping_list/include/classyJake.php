@@ -57,23 +57,24 @@ echo ucwords($this->getTitle());
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!-- jquery mobile -->
     <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
-    <!-- jquery sortable -->
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<!-- jquery sortable -->
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
   	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   	<!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 	<!-- icons -->
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
-	<link rel="apple-touch-icon" sizes="57x57" href="/img/apple-touch-icon-57x57.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png" />
-	<link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76x76.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png" />
-	<link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120x120.png" />
-	<link rel="apple-touch-icon" sizes="144x144" href="/img/apple-touch-icon-144x144.png" />
-	<link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152x152.png" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180x180.png" />	
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="57x57" href="img/apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="img/apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="img/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="img/apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="img/apple-touch-icon-152x152.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon-180x180.png" />	
 </head>
 <body background="img/woodbackground.png">
 END;
@@ -121,15 +122,15 @@ END;
 
 	private function createConn() {
 
-		$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
+		// $conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
 
-		// $servername = "localhost";
-		// $username = "root";
-		// $password = "";
-		// $db = "shopping_list";
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+		$db = "shopping_list";
 
-		// // Create connection
-		// $conn = mysqli_connect($servername, $username, $password, $db);
+		// Create connection
+		$conn = mysqli_connect($servername, $username, $password, $db);
 
 		// Check connection
 		if (!$conn) {

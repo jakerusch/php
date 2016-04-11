@@ -110,7 +110,40 @@ while($row=$result->fetch_assoc()) {
 					}
 				}
 			})
-		}	
+		}
+		// $("#myList li").swipeLeft(function() {
+		// 	alert("1");
+			// event.preventDefault();
+			// event.stopPropagation();			
+			// var myID = $(this).attr("id");
+			// var myTitle = $(this).text();		
+			// alert("2");
+			// if (confirm('Are you sure you want to delete '+myTitle+'?')) {
+			// 	DeleteRecord(myId);
+			// }		
+			// alert("3");		
+		// });
+		// // delete record
+		// $("span.glyphicon-trash").click(function(event) {
+		// 	event.preventDefault();
+		// 	event.stopPropagation();
+		// 	var myID = $(this).parent("li").attr("id");
+		// 	var myTitle = $(this).parent("li").text();
+		// 	if (confirm('Are you sure you want to delete '+myTitle+'?')) {
+		// 		DeleteRecord(myId);
+		// 	}
+		// })
+		function DeleteRecord(id) {
+			jQuery.ajax({
+				type: "POST",
+				url: "post/deletelistitem.php",
+				data: {list_id: id, item_id: "<?php echo $id; ?> "},
+				cache: false,
+				success: function(response) {
+					window.location.reload(true);
+				}
+			})
+		}	 	
 		});
 	</script>
 	</body>

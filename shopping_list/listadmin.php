@@ -80,7 +80,7 @@ while($row=$result->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}			
+		}
 	});
 	</script>
 	</body>
