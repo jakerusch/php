@@ -63,6 +63,17 @@ echo ucwords($this->getTitle());
   	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   	<!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+	<!-- icons -->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="57x57" href="/img/apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="/img/apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152x152.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon-180x180.png" />	
 </head>
 <body background="img/woodbackground.png">
 END;
@@ -110,15 +121,14 @@ END;
 
 	private function createConn() {
 
-	$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
-		// mysqli_select_db($mysqlCon, getenv('OPENSHIFT_APP_NAME')) or die("Error: " . mysqli_error($mysqlCon));
+		$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
 
-		// $servername = getenv("OPENSHIFT_MYSQL_DB_HOST");
-		// $username = "shopper";
-		// $password = "aE68thAMusHLHmr5";
-		// $db = "php";
+		// $servername = "localhost";
+		// $username = "root";
+		// $password = "";
+		// $db = "shopping_list";
 
-		// Create connection
+		// // Create connection
 		// $conn = mysqli_connect($servername, $username, $password, $db);
 
 		// Check connection

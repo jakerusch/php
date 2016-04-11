@@ -26,7 +26,7 @@ $row = $result->fetch_assoc();
 					  	<ul class="dropdown-menu" aria-labelledby="dropdown">
 
 <?php
-$sql2 = "SELECT item_id, title FROM master_list ORDER BY title ASC";
+$sql2 = "SELECT master_list.item_id, master_list.title FROM master_list LEFT JOIN list_content ON master_list.item_id = list_content.item_id AND list_content.list_id='".$id."' WHERE list_content.item_id IS NULL";
 $result2=$conn->query($sql2);
 while($row2=$result2->fetch_assoc()) {
 	echo "<li id=\"".$row2["item_id"]."\"><a href=\"#\">".$row2["title"]."</a></li>";
