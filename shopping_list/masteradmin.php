@@ -22,7 +22,7 @@ $conn = $obj->getConn();
 $getList = "SELECT * FROM master_list ORDER BY sort_order ASC";
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {
-	echo "<li class=\"list-group-item\" id=\"item-".$row['item_id']."\" sort=\"".$row['sort_order']."\">".$row['title']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";
+	echo "<li class=\"list-group-item\" id=\"item-".$row['item_id']."\" sort=\"".$row['sort_order']."\"><span class=\"glyphicon glyphicon-menu-hamburger pull-left\"></span> ".$row['title']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";
 }
 
 ?>
@@ -34,6 +34,7 @@ while($row=$result->fetch_assoc()) {
 	$(function() {
 		// sortable 
 		$("#sortable").sortable({
+			handle: "span.glyphicon-menu-hamburger",
 			stop: function(event, ui) {
 				var data = $(this).sortable("serialize");
 				$.ajax({
