@@ -122,15 +122,15 @@ END;
 
 	private function createConn() {
 
-		// $conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
+		$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
 
-		$servername = "localhost";
-		$username = "root";
-		$password = "";
-		$db = "shopping_list";
+		// $servername = "localhost";
+		// $username = "root";
+		// $password = "";
+		// $db = "shopping_list";
 
-		// Create connection
-		$conn = mysqli_connect($servername, $username, $password, $db);
+		// // Create connection
+		// $conn = mysqli_connect($servername, $username, $password, $db);
 
 		// Check connection
 		if (!$conn) {
