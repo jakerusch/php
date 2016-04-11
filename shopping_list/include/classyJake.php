@@ -121,12 +121,15 @@ END;
 	}
 
 	private function createConn() {
+		$ver="p";
 
-		// for prod
-		$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
-
-		// // for local xampp
-		// $conn = mysqli_connect("localhost", "root", "", "shopping_list");
+		if($ver=="p") {
+			// for prod
+			$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
+		} else {
+			// for local xampp
+			$conn = mysqli_connect("localhost", "root", "", "shopping_list");
+		}
 
 		// Check connection
 		if (!$conn) {

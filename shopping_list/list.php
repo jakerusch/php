@@ -54,7 +54,7 @@ while($row=$result->fetch_assoc()) {
 	if($row["checked_status"]==1) {
 		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_id']."\"><span class=\"glyphicon glyphicon-check\"></span> ".$row['title']."</li>";
 	} else {
-		echo "<li class=\"list-group-item\" id=\"".$row['item_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span> ".$row['title']."</li>";
+		echo "<li class=\"list-group-item\" id=\"".$row['item_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span> ".$row['title']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";
 	}
 }
 
@@ -70,20 +70,30 @@ while($row=$result->fetch_assoc()) {
 			    var id = $(this).attr("id");
 			    AddListItem(id);
 			});
-		$("#myList li").click(function() {
-			var id=$(this).attr("id");
-			if($(this).hasClass("disabled")) {
-				// clear
-				$(this).removeClass("disabled").find("span").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
-				$("#myList").prepend($(this));
-				UpdateRecord(id, "0", true);
-			} else {
-				// check and disable
-				$(this).addClass("disabled").find("span").removeClass("glyphicon-unchecked").addClass("glyphicon-check");
-				$("#myList").append($(this));
-				UpdateRecord(id, "1", false);
-			}
-		})
+			$("span").click(function(event) {
+				var id = $(this).parent().attr("id");
+				// check, disable, and move to end
+				if($(this).hasClass("glyphicon-unchecked")) {
+					$(this).parent().addClass("disabled");
+					$(this).parent().find("span.glyphicon-trash").removeClass("glyphicon-trash").addClass("glyphicon-trash-hidden");
+					$(this).removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+					$("#myList").append($(this).parent());
+					UpdateRecord(id, "1", false);
+				// uncheck, enable, and move to front
+				} else if($(this).hasClass("glyphicon-check")) {
+					$(this).parent().removeClass("disabled");
+					$(this).parent().find("span.glyphicon-trash-hidden").removeClass("glyphicon-trash-hidden").addClass("glyphicon-trash");
+					$(this).removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+					$("#myList").prepend($(this).parent());
+					UpdateRecord(id, "0", true);
+				// user delete item
+				} else if ($(this).hasClass("glyphicon-trash")) {
+					var myTitle = $(this).parent().text();
+					if (confirm('Are you sure you want to delete '+myTitle+'?')) {
+						DeleteRecord(id);
+					}
+				}
+			})
 		function AddListItem(item_id) {
 			jQuery.ajax({
 				type: "POST",
@@ -111,33 +121,11 @@ while($row=$result->fetch_assoc()) {
 				}
 			})
 		}
-		// $("#myList li").swipeLeft(function() {
-		// 	alert("1");
-			// event.preventDefault();
-			// event.stopPropagation();			
-			// var myID = $(this).attr("id");
-			// var myTitle = $(this).text();		
-			// alert("2");
-			// if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-			// 	DeleteRecord(myId);
-			// }		
-			// alert("3");		
-		// });
-		// // delete record
-		// $("span.glyphicon-trash").click(function(event) {
-		// 	event.preventDefault();
-		// 	event.stopPropagation();
-		// 	var myID = $(this).parent("li").attr("id");
-		// 	var myTitle = $(this).parent("li").text();
-		// 	if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-		// 		DeleteRecord(myId);
-		// 	}
-		// })
 		function DeleteRecord(id) {
 			jQuery.ajax({
 				type: "POST",
 				url: "post/deletelistitem.php",
-				data: {list_id: id, item_id: "<?php echo $id; ?> "},
+				data: {list_id: "<?php echo $id; ?>", item_id: id},
 				cache: false,
 				success: function(response) {
 					window.location.reload(true);
