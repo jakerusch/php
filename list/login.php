@@ -37,11 +37,12 @@ $obj->createPage($pageName);
 				data: {email: email, password: password},
 				cache: false,
 				success: function(response) {
-					if(response==1) {
-						window.location.href = "listadmin.php";
-					} else {
-						$("#error").text("Username or Password is invalid.");
-					}
+					alert(response);
+					// if(response==1) {
+					// 	window.location.href = "listadmin.php";
+					// } else {
+					// 	$("#error").text("Username or Password is invalid.");
+					// }
 				}
 			});
 		}			
