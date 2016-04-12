@@ -1,4 +1,5 @@
 <?php
+echo "before require_once";
 require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
