@@ -12,4 +12,11 @@ if ($conn->query($sql) === TRUE) {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
+$sql2 = "DELETE FROM list_content WHERE list_id='".$id."'";
+if ($conn->query($sql2) === TRUE) {
+    echo "Record deleted successfully";
+} else {
+    echo "Error: " . $sql2 . "<br>" . $conn->error;
+}
+
 ?>

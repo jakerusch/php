@@ -43,8 +43,6 @@ while($row=$result->fetch_assoc()) {
 			var myVal = $("#listTitle").val();
 			if(myVal.trim().length>0) {
 				AddList(myVal);
-			} else {
-				alert("no go bro");
 			}
 		})
 		// add new record function
