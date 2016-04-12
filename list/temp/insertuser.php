@@ -1,6 +1,6 @@
 <?php
-echo $_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php";
-require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
+echo $_SERVER['DOCUMENT_ROOT']."list/include/classyJake.php";
+require_once($_SERVER['DOCUMENT_ROOT']."list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
 
