@@ -121,7 +121,7 @@ END;
 	}
 
 	private function createConn() {
-		$ver="";
+		$ver="p";
 
 		if($ver=="p") {
 			// for prod
