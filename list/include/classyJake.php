@@ -1,22 +1,50 @@
 <?php
+session_start();
 
 class classyJake {
 	
 	private $title;
 	private $conn;
 
+		public function __construct() {
+			// check for user session
+			if(!isset($_SESSION['user_id'])) {
+				// if not login page or logincheck script, redirect to login page
+				if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/post/logincheck.php") {
+					header("Location:login.php");
+				}
+			}
+		}
+
 	// create navigation
 	private function navigation() {
-		$navArr=array("Lists" => "listadmin.php", "Admin" => "masteradmin.php");
-		$temp="";
-        foreach($navArr as $key => $value) {
-            $temp=$temp."<li";
-            if(strtolower($this->title)==strtolower(str_replace(".php", "", $value))) {
-                $temp=$temp." class=\"active\"";
-            }
-            $temp=$temp."><a href=\"".$value."\">".$key."</a></li>";
-        }
-        return $temp;
+		if($_SERVER['REQUEST_URI']!=="/list/login.php") {
+			$navArr=array("Lists" => "listadmin.php", "Admin" => "masteradmin.php");
+			$temp="<!-- Brand and toggle get grouped for better mobile display -->
+					<div class=\"navbar-header\">
+					<button class=\"navbar-toggle collapsed\" aria-expanded=\"false\" aria-controls=\"navbar\" type=\"button\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
+						<span class=\"sr-only\">Toggle navigation</span>
+						<span class=\"icon-bar\"></span>
+						<span class=\"icon-bar\"></span>
+						<span class=\"icon-bar\"></span>
+					</button>				
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class=\"navbar-collapse collapse\" id=\"navbar\" aria-expanded=\"false\" style=\"height: 1px;\"><ul class=\"nav navbar-nav\">";
+	        foreach($navArr as $key => $value) {
+	            $temp.="<li";
+	            if(strtolower($this->title)==strtolower(str_replace(".php", "", $value))) {
+	                $temp.=" class=\"active\"";
+	            }
+	            $temp.="><a href=\"".$value."\">".$key."</a></li>";
+	        }
+	        $temp.="</ul><ul class=\"nav navbar-nav navbar-right\"><li><a href=\"logout.php\">Logout</a></li></ul>
+	        				</div><!-- /.navbar-collapse -->	
+						</div><!-- /.container-fluid -->
+					</nav>";
+	        return $temp;
+	    }
 	}
 	
 	public function createPage($title) {
@@ -91,31 +119,11 @@ END;
 		<div class="col-md-4 col-md-offset-4 col-xs-12">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>				
-				</div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="navbar-collapse collapse" id="navbar" aria-expanded="false" style="height: 1px;">
-					<ul class="nav navbar-nav">
 END;
 
 echo $this->navigation();
 			
-		// continue printing page navigation
-		echo <<<END
-					<ul class="nav navbar-nav navbar-right"></ul>
-					</ul>
-				</div><!-- /.navbar-collapse -->	
-			</div><!-- /.container-fluid -->
-		</nav>
-END;
 
 
 	}
