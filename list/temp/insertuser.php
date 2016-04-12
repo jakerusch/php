@@ -10,7 +10,7 @@ $password="3stooges";
 $hash=password_hash($password, PASSWORD_DEFAULT);
 
 $sql="INSERT INTO users(user_id, user_password) VALUES ('".$email."', '".$hash."')";
-// $result=$conn->query($sql);
+$result=$conn->query($sql);
 
 
 if ($conn->query($sql) === TRUE) {
