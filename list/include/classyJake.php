@@ -7,13 +7,13 @@ class classyJake {
 	private $conn;
 
 		public function __construct() {
-			// check for user session
-			if(!isset($_SESSION['user_id'])) {
-				// if not login page or logincheck script, redirect to login page
-				if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/post/logincheck.php") {
-					header("Location:login.php");
-				}
-			}
+			// // check for user session
+			// if(!isset($_SESSION['user_id'])) {
+			// 	// if not login page or logincheck script, redirect to login page
+			// 	if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/post/logincheck.php") {
+			// 		header("Location:login.php");
+			// 	}
+			// }
 		}
 
 	// create navigation
