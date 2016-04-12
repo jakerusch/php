@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once($_SERVER['DOCUMENT_ROOT']."/list/password_compat-master/lib/password.php");
 
 class classyJake {
 	
