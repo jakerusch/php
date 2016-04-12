@@ -27,7 +27,9 @@ $obj->createPage($pageName);
 			event.preventDefault();
 			var email = $("#email").val();
 			var password = $("#password").val();
+			alert("Before");
 			Login(email, password);
+			alert("after");
 		})
 		// add new record function
 		function Login(email, password) {
