@@ -23,8 +23,8 @@ $row = $result->fetch_assoc();
 
 					</div>
 					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Add <span class="caret"></span></button>
-					  	<ul class="dropdown-menu" aria-labelledby="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Add <span class="caret"></span></button>
+				  	<ul class="dropdown-menu" aria-labelledby="dropdown">
 
 <?php
 
@@ -33,8 +33,8 @@ $dropdown = "SELECT master_items.item_name, master_items.item_id
 	WHERE master_items.item_id NOT IN 
 		(SELECT master_items.item_id
 			FROM master_items
-			LEFT JOIN items ON master_items.item_id = items.item_id
-			WHERE items.location_id='".$id."')
+			LEFT JOIN item_instances ON master_items.item_id=item_instances.item_id
+			WHERE item_instances.location_id='".$id."')
 			ORDER BY master_items.item_name ASC";
 
 $result=$conn->query($dropdown);
@@ -44,7 +44,7 @@ while($row=$result->fetch_assoc()) {
 
 ?>
 
-					  	</ul>
+					</ul>
 					</div>
 			  	</div>
 			</form>
@@ -53,14 +53,14 @@ while($row=$result->fetch_assoc()) {
 
 <?php
 
-$getList = "SELECT `items`.`item_instance_id`, `master_items`.`item_name`, `items`.`sort_order`
-	FROM `master_locations`
-	LEFT JOIN `items` ON `master_locations`.`location_id` = `items`.`location_id` 
-	LEFT JOIN `master_items` ON `items`.`item_id` = `master_items`.`item_id` 
+$getList = "SELECT item_instances.item_instance_id, master_items.item_name, item_instances.sort_order
+	FROM master_locations
+	LEFT JOIN item_instances ON master_locations.location_id=item_instances.location_id
+	LEFT JOIN master_items ON item_instances.item_id=master_items.item_id
 	WHERE master_locations.user_id='".$sid."'
-	AND items.item_instance_id IS NOT NULL
+	AND item_instances.item_instance_id IS NOT NULL
 	AND master_locations.location_id='".$id."'
-	ORDER BY items.sort_order ASC";
+	ORDER BY item_instances.sort_order ASC";
 
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {

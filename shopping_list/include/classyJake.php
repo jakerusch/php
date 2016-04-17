@@ -12,7 +12,7 @@ class classyJake {
 		if(!isset($_SESSION['user_id'])) {
 			// if not login page or logincheck script, redirect to login page
 			if($_SERVER['REQUEST_URI']!=="/shoping_list/login.php" && $_SERVER['REQUEST_URI']!=="/shopping_list/post/logincheck.php" &&  $_SERVER['REQUEST_URI']!=="/shopping_list/temp/insertuser.php") {
-				// header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
+				header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
 				// header("Location:localhost:81/shopping_list/login.php");
 			}
 		}
@@ -131,7 +131,7 @@ echo $this->navigation();
 	}
 
 	private function createConn() {
-		$ver="";
+		$ver="p";
 
 		if($ver=="p") {
 			// for prod

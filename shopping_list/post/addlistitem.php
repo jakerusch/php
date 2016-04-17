@@ -6,9 +6,8 @@ $sid=$_SESSION['user_id'];
 
 $location_instance_id=$_POST['location_instance_id'];
 $item_instance_id=$_POST['item_instance_id'];
-$status=$_POST['status'];
 
-$sql = "UPDATE lists SET checked_status='".$status."' WHERE location_instance_id='".$location_instance_id."' AND item_instance_id='".$item_instance_id."'";
+$sql = "INSERT INTO lists(location_instance_id, item_instance_id, qty) VALUES('".$location_instance_id."', '".$item_instance_id."', '1')";
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {

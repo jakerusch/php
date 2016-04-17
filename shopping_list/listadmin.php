@@ -16,7 +16,8 @@ $sid=$_SESSION['user_id'];
 
 <?php
 
-$sql = "SELECT location_id, user_id, location_name FROM master_locations WHERE user_id='".$sid."'";
+// get all available locations for user to select from
+$sql = "SELECT master_locations.location_id, master_locations.user_id, master_locations.location_name FROM master_locations WHERE master_locations.user_id='".$sid."'";
 $result=$conn->query($sql);
 while($row=$result->fetch_assoc()) {
 	echo "<li id=\"".$row["location_id"]."\"><a href=\"#\">".$row["location_name"]."</a></li>";
@@ -33,11 +34,11 @@ while($row=$result->fetch_assoc()) {
 
 <?php
 
-$getList = "SELECT locations.location_instance_id, locations.location_id, DATE_FORMAT(locations.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name
-	FROM locations
-	LEFT JOIN master_locations ON locations.location_id = master_locations.location_id
+// get all location instances that have been created by the user
+$getList = "SELECT location_instances.location_instance_id, location_instances.location_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name
+	FROM location_instances
+	LEFT JOIN master_locations ON location_instances.location_id = master_locations.location_id
 	WHERE master_locations.user_id = '".$sid."'";
-	
 
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {
@@ -80,7 +81,7 @@ while($row=$result->fetch_assoc()) {
 			var myID = $(this).closest("li").attr("id");
 			var myTitle = $(this).closest("li").text();
 			if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-				DeleteListLocation(myID.replace("item-", ""));
+				DeleteListLocation(myID);
 			}
 		})
 		function DeleteListLocation(location_instance_id) {

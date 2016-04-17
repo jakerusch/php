@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/shopping_list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
@@ -13,4 +13,4 @@ if ($conn->query($sql) === TRUE) {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
-?>
+?> -->

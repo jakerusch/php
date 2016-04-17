@@ -8,12 +8,12 @@ $location_id=$_POST["location_id"];
 $item_id=$_POST["item_id"];
 
 // get largest sort order for location
-$result = $conn->query("SELECT MAX(sort_order) FROM items WHERE location_id = '".$location_id."'");
+$result = $conn->query("SELECT MAX(sort_order) FROM item_instances WHERE location_id = '".$location_id."'");
 $row = mysqli_fetch_row($result);
 $max = $row[0] + 1;
 
 // creates new list
-$sql = "INSERT INTO items(item_id, location_id, sort_order) VALUES('".$item_id."', '".$location_id."', $max)";
+$sql = "INSERT INTO item_instances(item_id, location_id, sort_order) VALUES('".$item_id."', '".$location_id."', $max)";
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {
