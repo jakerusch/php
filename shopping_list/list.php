@@ -16,7 +16,7 @@ $sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_ins
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 
-$menu_hide=$row['menu_hide'];
+// $menu_hide=$row['menu_hide'];
 
 ?>
 			<form class="well">
@@ -116,36 +116,36 @@ while($row=$result->fetch_assoc()) {
 				}
 			})
 		}
-		if("<?php echo $menu_hide; ?>" == 0) {
-			// show 
-			$("#showHideButton").addClass("glyphicon-menu-up");
-		} else {
-			// hide
-			$("#showHideButton").addClass("glyphicon-menu-down");
-			// $("#showHideTarget").hide();
-		}
-		$("#showHideButton").click(function() {
-			if($("#showHideButton").hasClass("glyphicon-menu-down")) {
-				$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
-				// $("#showHideTarget").show();
-				MenuHide(0);
-			} else {
-				$("#showHideButton").removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
-				// $("#showHideTarget").hide();
-				MenuHide(1);
-			}
-		})
-		function MenuHide(bool) {
-			jQuery.ajax({
-				type: "POST",
-				url: "post/showhidejumbotron.php",
-				data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
-				cache: false,
-				success: function(response) {
-					window.location.reload(false);
-				}
-			})
-		}
+		// if("<?php echo $menu_hide; ?>" == 0) {
+		// 	// show 
+		// 	$("#showHideButton").addClass("glyphicon-menu-up");
+		// } else {
+		// 	// hide
+		// 	$("#showHideButton").addClass("glyphicon-menu-down");
+		// 	$("#showHideTarget").hide();
+		// }
+		// $("#showHideButton").click(function() {
+		// 	if($("#showHideButton").hasClass("glyphicon-menu-down")) {
+		// 		$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
+		// 		$("#showHideTarget").show();
+		// 		MenuHide(0);
+		// 	} else {
+		// 		$("#showHideButton").removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
+		// 		$("#showHideTarget").hide();
+		// 		MenuHide(1);
+		// 	}
+		// })
+		// function MenuHide(bool) {
+		// 	jQuery.ajax({
+		// 		type: "POST",
+		// 		url: "post/showhidejumbotron.php",
+		// 		data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
+		// 		cache: false,
+		// 		success: function(response) {
+		// 			window.location.reload(false);
+		// 		}
+		// 	})
+		// }
 		$("#myList li").on("taphold", function() {
 			var id = $(this).attr('id');
 			var qty = parseInt($(this).find("span.qty").text());
