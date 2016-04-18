@@ -14,7 +14,6 @@ $sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_ins
 	WHERE location_instances.location_instance_id='".$id."'";
 
 $result=$conn->query($sql);
-echo "num_rows = ".$result->num_rows;
 $row = $result->fetch_assoc();
 $menu_hide=$row['menu_hide'];
 
