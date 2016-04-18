@@ -37,9 +37,9 @@ $dropdown = "SELECT master_items.item_name, master_items.item_id
 			WHERE item_instances.location_id='".$id."')
 			ORDER BY master_items.item_name ASC";
 
-$result=$conn->query($dropdown);
-while($row=$result->fetch_assoc()) {
-	echo "<li id=\"".$row["item_id"]."\"><a href=\"#\">".$row["item_name"]."</a></li>";
+$result2=$conn->query($dropdown);
+while($row2=$result2->fetch_assoc()) {
+	echo "<li id=\"".$row2["item_id"]."\"><a href=\"#\">".$row2["item_name"]."</a></li>";	
 }	
 
 ?>
@@ -62,9 +62,9 @@ $getList = "SELECT item_instances.item_instance_id, master_items.item_name, item
 	AND master_locations.location_id='".$id."'
 	ORDER BY item_instances.sort_order ASC";
 
-$result = $conn->query($getList);
-while($row=$result->fetch_assoc()) {
-	echo "<li class=\"list-group-item\" id=\"item-".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-menu-hamburger pull-left\"></span> ".$row['item_name']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";
+$result3 = $conn->query($getList);
+while($row3=$result3->fetch_assoc()) {
+	echo "<li class=\"list-group-item\" id=\"item-".$row3['item_instance_id']."\"><span class=\"glyphicon glyphicon-menu-hamburger pull-left\"></span> ".$row3['item_name']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";
 }
 
 ?>
@@ -75,10 +75,10 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-		$(".dropdown li").click( function() {
+		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
 		    AddListItem(id);
-		});
+		})
 		function AddListItem(item_id) {
 			jQuery.ajax({
 				type: "POST",
@@ -126,7 +126,7 @@ while($row=$result->fetch_assoc()) {
 				}
 			})
 		}	 	
-		});
+	});
 	</script>
 	</body>
 </html>
