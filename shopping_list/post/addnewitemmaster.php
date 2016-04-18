@@ -4,7 +4,7 @@ $obj = new classyJake();
 $conn = $obj->getConn();
 $sid=$_SESSION['user_id'];
 
-$item_name = $_POST['item_name'];
+$item_name = mysqli_real_escape_string($conn, $_POST['item_name']);
 
 $sql = "INSERT INTO master_items(user_id, item_name) VALUES('".$sid."', '".$item_name."')";
 if ($conn->query($sql) === TRUE) {

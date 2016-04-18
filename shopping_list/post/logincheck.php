@@ -3,8 +3,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/shopping_list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
 
-$email=$_POST['email'];
-$password=$_POST['password'];
+$email=mysqli_real_escape_string($conn, $_POST['email']);
+$password=mysqli_real_escape_string($conn, $_POST['password']);
 $hash=password_hash($password, PASSWORD_DEFAULT);
 
 $sql="SELECT user_email, user_password, user_id FROM users WHERE users.user_email='".$email."'";
