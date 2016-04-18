@@ -3,21 +3,29 @@ require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
 $obj = new classyJake();
 $pageName = basename(__FILE__, '.php');
 $obj->createPage($pageName);
-$conn = $obj->getConn();
+$conn=$obj->getConn();
+$sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
-$sql = "SELECT list_title, DATE_FORMAT(timestamp, '%c/%e/%Y') as timestamp FROM lists WHERE list_id='".$id."' LIMIT 1";
-$result = $conn->query($sql);
+// get current location instance
+$sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name, location_instances.menu_hide
+	FROM location_instances
+	LEFT JOIN master_locations ON location_instances.location_id = master_locations.location_id 
+	WHERE location_instances.location_instance_id='".$id."'";
+
+$result=$conn->query($sql);
 $row = $result->fetch_assoc();
+$menu_hide=$row['menu_hide'];
 
 ?>
 
 			<form class="well">
-				<div class="form-group">
-					<div class="text-center"><h3>
+				<div class="form-group" id="showHideTarget">
+					<div class="text-center">
 
-<?php 
-	echo $row["list_title"]."<small> ".$row["timestamp"]."</small></h3>";
+<?php
+	echo "<h3>".$row["location_name"]."<small> ".$row['timestamp']."</small></h3>";
+	// echo "<h5><em>Double click to increase quantity.<br />Click and hold to set quantity to one.</em></h5>";
 ?>
 
 					</div>
@@ -26,39 +34,65 @@ $row = $result->fetch_assoc();
 					  	<ul class="dropdown-menu" aria-labelledby="dropdown">
 
 <?php
-$sql2 = "SELECT master_list.item_id, master_list.title FROM master_list LEFT JOIN list_content ON master_list.item_id = list_content.item_id AND list_content.list_id='".$id."' WHERE list_content.item_id IS NULL";
-$result2=$conn->query($sql2);
-while($row2=$result2->fetch_assoc()) {
-	echo "<li id=\"".$row2["item_id"]."\"><a href=\"#\">".$row2["title"]."</a></li>";
-}
+
+// items user can add to list and hasn't already done so
+$dropdown = "SELECT item_instances.item_instance_id, item_instances.item_id, item_instances.location_id, item_instances.sort_order, master_items.item_name, location_instances.location_instance_id
+	FROM item_instances
+	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+	INNER JOIN master_locations ON item_instances.location_id=master_locations.location_id
+	INNER JOIN location_instances ON master_locations.location_id=location_instances.location_id
+	WHERE location_instances.location_instance_id='".$id."'
+    AND item_instances.item_instance_id NOT IN
+	    (SELECT lists.item_instance_id
+		FROM lists
+		INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
+		INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
+		INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
+		INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+		WHERE lists.location_instance_id='".$id."')
+    ORDER BY master_items.item_name ASC";
+
+$result=$conn->query($dropdown);
+while($row=$result->fetch_assoc()) {
+	echo "<li id=\"".$row["item_instance_id"]."\"><a href=\"#\">".$row["item_name"]."</a></li>";
+}	
+
 ?>
 
-					  	</ul>
-					</div>
-			  	</div>
+				  		</ul>
+				  	</div>
+		  		</div>
+ 		  		<div class="row">
+		  			<div class="col-md-12">
+		  				<span class="glyphicon pull-right" id="showHideButton"></span>
+		  			</div>
+		  		</div>
 			</form>
 
 			<ul class="list-group" id="myList">
 
 <?php
 
-$getList = "SELECT master_list.item_id, master_list.title, master_list.sort_order, list_content.checked_status
-	FROM list_content
-	JOIN master_list
-	ON list_content.item_id=master_list.item_id
-	WHERE list_content.list_id='".$id."' 
-	ORDER BY list_content.checked_status ASC, master_list.sort_order ASC";
+// items user has added to list
+$getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty, master_locations.location_name, master_items.item_name, item_instances.sort_order, lists.checked_status, lists.qty
+	FROM lists
+	INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
+	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
+	INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
+	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+	WHERE lists.location_instance_id='".$id."'
+	ORDER BY lists.checked_status ASC, item_instances.sort_order ASC";
 
-$result = $conn->query($getList);
+$result=$conn->query($getList);
 while($row=$result->fetch_assoc()) {
-	if($row["checked_status"]==1) {
-		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_id']."\"><span class=\"glyphicon glyphicon-check\"></span> ".$row['title']."</li>";
+	if($row['checked_status']==1) {
+		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-check\"></span>".$row['item_name']."</li>";
 	} else {
-		echo "<li class=\"list-group-item\" id=\"".$row['item_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span> ".$row['title']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";
+		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']." x <span class=\"qty\">".$row['qty']."</span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
 	}
 }
 
-?>			
+?>
 
 			</ul>
 		</div>
@@ -66,53 +100,114 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-			$(".dropdown li").click( function() {
-			    var id = $(this).attr("id");
-			    AddListItem(id);
-			});
-			$("span").click(function(event) {
-				var id = $(this).parent().attr("id");
-				// check, disable, and move to end
-				if($(this).hasClass("glyphicon-unchecked")) {
-					$(this).parent().addClass("disabled");
-					$(this).parent().find("span.glyphicon-trash").removeClass("glyphicon-trash").addClass("glyphicon-trash-hidden");
-					$(this).removeClass("glyphicon-unchecked").addClass("glyphicon-check");
-					$("#myList").append($(this).parent());
-					UpdateRecord(id, "1", false);
-				// uncheck, enable, and move to front
-				} else if($(this).hasClass("glyphicon-check")) {
-					$(this).parent().removeClass("disabled");
-					$(this).parent().find("span.glyphicon-trash-hidden").removeClass("glyphicon-trash-hidden").addClass("glyphicon-trash");
-					$(this).removeClass("glyphicon-check").addClass("glyphicon-unchecked");
-					$("#myList").prepend($(this).parent());
-					UpdateRecord(id, "0", true);
-				// user delete item
-				} else if ($(this).hasClass("glyphicon-trash")) {
-					var myTitle = $(this).parent().text();
-					if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-						DeleteRecord(id);
-					}
-				}
-			})
-		function AddListItem(item_id) {
+		if("<?php echo $menu_hide; ?>" == '0') {
+			// show 
+			$("#showHideButton").addClass("glyphicon-menu-up");
+			$("#showHideTarget").show();
+		} else {
+			// hide
+			$("#showHideButton").addClass("glyphicon-menu-down");
+			$("#showHideTarget").hide();
+		}	
+		$(".dropdown li").click( function() {
+		    var id = $(this).attr("id");
+		    AddListItem(id);
+		})
+ 		function AddListItem(item_instance_id) {
 			jQuery.ajax({
 				type: "POST",
-				url: "post/addnewlistitem.php",
-				data: {item_id: item_id, list_id: "<?php echo $id; ?>"},
+				url: "post/addlistitem.php",
+				data: {location_instance_id: "<?php echo $id ?>", item_instance_id: item_instance_id},
 				cache: false,
 				success: function(response) {
 					window.location.reload(true);
 				}
 			})
 		}
-		function UpdateRecord(item_id, status, refresh) {
+		$("#showHideButton").click(function() {
+			if($("#showHideButton").hasClass("glyphicon-menu-down")) {
+				$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
+				$("#showHideTarget").show();
+				MenuHide(0);
+			} else {
+				$("#showHideButton").removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
+				$("#showHideTarget").hide();
+				MenuHide(1);
+			}
+		})
+		function MenuHide(bool) {
+			jQuery.ajax({
+				type: "POST",
+				url: "post/showhidejumbotron.php",
+				data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
+				cache: false,
+				success: function(response) {
+					window.location.reload(false);
+				}
+			})
+		}
+		$("#myList li").on("taphold", function() {
+			var id = $(this).attr('id');
+			var qty = parseInt($(this).find("span.qty").text());
+			if(qty>1 && confirm("Do you want to set the quantity to 1?")) {
+				UpdateQty(id, 1);
+			}
+		})
+		var mylatesttap;
+		$("#myList li").click(function() {
+			var now = new Date().getTime();
+			var timesince = now - mylatesttap;
+			if((timesince<600) && (timesince>0)) {
+				var id = $(this).attr('id');
+				var qty = parseInt($(this).find("span.qty").text()) + 1;
+				if(confirm("Do you want to set the quantity to "+qty+"?")) {
+					UpdateQty(id, qty);
+				}
+		   	}
+		   	mylatesttap = new Date().getTime();
+		})
+		function UpdateQty(item_instance_id, qty) {
+			jQuery.ajax({
+				type: "POST",
+				url: "post/updateqty.php",
+				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, qty: qty},
+				cache: false,
+				success: function(response) {
+					window.location.reload(true);
+				}
+			})
+		}
+		$("span").click(function(event) {
+			var id = $(this).parent().attr("id");
+			// check, disable, and move to end
+			if($(this).hasClass("glyphicon-unchecked")) {
+				$(this).parent().addClass("disabled");
+				$(this).parent().find("span.glyphicon-trash").removeClass("glyphicon-trash").addClass("glyphicon-trash-hidden");
+				$(this).removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+				$("#myList").append($(this).parent());
+				UpdateRecord(id, "1", false);
+			// uncheck, enable, and move to front
+			} else if($(this).hasClass("glyphicon-check")) {
+				$(this).parent().removeClass("disabled");
+				$(this).parent().find("span.glyphicon-trash-hidden").removeClass("glyphicon-trash-hidden").addClass("glyphicon-trash");
+				$(this).removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+				$("#myList").prepend($(this).parent());
+				UpdateRecord(id, "0", true);
+			// user delete item
+			} else if ($(this).hasClass("glyphicon-trash")) {
+				var myTitle = $(this).parent().text();
+				if (confirm('Are you sure you want to delete '+myTitle+'?')) {
+					DeleteLocationRecord(id);
+				}
+			}
+		})
+		function UpdateRecord(item_instance_id, status, refresh) {
 			jQuery.ajax({
 				type: "POST",
 				url: "post/updatehidden.php",
-				data: {list_id: "<?php echo $id; ?>", item_id: item_id, status: status},
+				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, status: status},
 				cache: false,
 				success: function(response) {
-					// alert(response);
 					// only refresh is item is unchecked and returned to list
 					// forces sort order
 					if(refresh==true) {
@@ -120,19 +215,19 @@ while($row=$result->fetch_assoc()) {
 					}
 				}
 			})
-		}
-		function DeleteRecord(id) {
+		}	
+		function DeleteLocationRecord(item_instance_id) {
 			jQuery.ajax({
 				type: "POST",
 				url: "post/deletelistitem.php",
-				data: {list_id: "<?php echo $id; ?>", item_id: id},
+				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id},
 				cache: false,
 				success: function(response) {
 					window.location.reload(true);
 				}
 			})
-		}	 	
-		});
+		}
+	});
 	</script>
 	</body>
 </html>

@@ -2,14 +2,12 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
+$sid=$_SESSION['user_id'];
 
-$title = $_POST['title'];
+$location_id=$_POST["location_id"];
 
-$result = $conn->query("SELECT MAX(sort_order) FROM master_list");
-$row = mysqli_fetch_row($result);
-$max = $row[0] + 1;
-
-$sql = "INSERT INTO master_list(title, sort_order) VALUES('".$title."', '".$max."')";
+// creates new list location instance
+$sql = "INSERT INTO location_instances(location_id, user_id) VALUES('".$location_id."', '".$sid."')";
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {

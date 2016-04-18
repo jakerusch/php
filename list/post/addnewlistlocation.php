@@ -1,14 +1,12 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
 $obj = new classyJake();
-$pageName = basename(__FILE__, '.php');
-$obj->createPage($pageName);
-
-$listTitle=$_POST["listTitle"];
-
-// creates new list
 $conn = $obj->getConn();
-$sql = "INSERT INTO lists(list_title) VALUES('".$listTitle."')";
+
+$location_id=$_POST["location_id"];
+
+// creates new list location instance
+$sql = "INSERT INTO location_instances(location_id) VALUES('".$location_id."')";
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {

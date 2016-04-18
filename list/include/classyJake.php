@@ -11,8 +11,11 @@ class classyJake {
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {
 			// if not login page or logincheck script, redirect to login page
-			if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" &&  $_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php") {
-				header("Location:http://php-nwcc.rhcloud.com/list/login.php");
+			if($_SERVER['REQUEST_URI']!=="/list/login.php" && 
+				$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" && 
+				$_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php" &&
+				$_SERVER['REQUEST_URI']!=="/list/logout.php") {
+				// header("Location:http://php-nwcc.rhcloud.com/list/login.php");
 			}
 		}
 	}
@@ -20,7 +23,7 @@ class classyJake {
 	// create navigation
 	private function navigation() {
 		if($_SERVER['REQUEST_URI']!=="/list/login.php") {
-			$navArr=array("Lists" => "listadmin.php", "Admin" => "masteradmin.php");
+			$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
 					<button class=\"navbar-toggle collapsed\" aria-expanded=\"false\" aria-controls=\"navbar\" type=\"button\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
@@ -76,14 +79,16 @@ echo ucwords($this->getTitle());
 // continue printing page header
 		echo <<<END
 	</title>
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
+ 		crossorigin="anonymous"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-	<!-- jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>	
     <!-- jquery mobile -->
     <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
@@ -93,6 +98,8 @@ echo ucwords($this->getTitle());
   	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   	<!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+	<!-- jquery taphold -->
+	<script src="js/jquery-taphold-master/taphold.js"></script>
 	<!-- icons -->
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
@@ -115,26 +122,24 @@ END;
 		
 		// print page navigation
 		echo <<<END
-	<div class="container">
+	<div class="container-fluid">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4 col-xs-12">
+		<div class="col-md-8 col-md-offset-2 col-xs-12">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 
 END;
 
-echo $this->navigation();
-			
-
+		echo $this->navigation();
 
 	}
 
 	private function createConn() {
-		$ver="p";
+		$ver="";
 
 		if($ver=="p") {
 			// for prod
-			$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "php", getenv('OPENSHIFT_MYSQL_DB_PORT'));
+			$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "shopping_list", getenv('OPENSHIFT_MYSQL_DB_PORT'));
 		} else {
 			// for local xampp
 			$conn = mysqli_connect("localhost", "root", "", "shopping_list");
@@ -144,7 +149,7 @@ echo $this->navigation();
 		if (!$conn) {
 		    die("Connection failed: " . mysqli_connect_error());
 		}
-		$this->conn = $conn;
+		$this->conn=$conn;
 	}
 
 	public function getConn() {

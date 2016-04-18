@@ -3,6 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
 $obj = new classyJake();
 $pageName = basename(__FILE__, '.php');
 $obj->createPage($pageName);
+$conn=$obj->getConn();
 
 ?>
 
@@ -17,8 +18,7 @@ $obj->createPage($pageName);
 			<ul class="list-group" id="sortable">
 
 <?php
-	
-$conn = $obj->getConn();
+
 $getList = "SELECT * FROM master_list ORDER BY sort_order ASC";
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {
