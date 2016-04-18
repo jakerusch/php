@@ -17,6 +17,8 @@ $row = $result->fetch_assoc();
 
 $menu_hide=$row['menu_hide'];
 
+echo "TEST";
+
 ?>
 
 			<form class="well">
