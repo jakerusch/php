@@ -118,12 +118,18 @@ while($row=$result->fetch_assoc()) {
 				UpdateQty(id, 1);
 			}
 		})
-		$("#myList li").on("dblclick", function() {
-			var id = $(this).attr('id');
-			var qty = parseInt($(this).find("span.qty").text()) + 1;
-			if(confirm("Do you want to set the quantity to "+qty+"?")) {
-				UpdateQty(id, qty);
-			}
+		var mylatesttap;
+		$("#myList li").click(function() {
+			var now = new Date().getTime();
+			var timesince = now - mylatesttap;
+			if((timesince<600) && (timesince>0)) {
+				var id = $(this).attr('id');
+				var qty = parseInt($(this).find("span.qty").text()) + 1;
+				if(confirm("Do you want to set the quantity to "+qty+"?")) {
+					UpdateQty(id, qty);
+				}
+		   	}
+		   	mylatesttap = new Date().getTime();
 		})
 		function UpdateQty(item_instance_id, qty) {
 			jQuery.ajax({
