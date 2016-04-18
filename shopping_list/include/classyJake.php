@@ -15,7 +15,7 @@ class classyJake {
 				$_SERVER['REQUEST_URI']!=="/shopping_list/post/logincheck.php" && 
 				$_SERVER['REQUEST_URI']!=="/shopping_list/temp/insertuser.php" &&
 				$_SERVER['REQUEST_URI']!=="/shopping_list/logout.php") {
-				header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
+				// header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
 			}
 		}
 	}
@@ -46,7 +46,7 @@ class classyJake {
 	        $temp.="</ul><ul class=\"nav navbar-nav navbar-right\"><li><a href=\"logout.php\">Logout</a></li></ul>
 	        				</div><!-- /.navbar-collapse -->	
 						</div><!-- /.container-fluid -->
-					</nav>";
+					</nav>ENDCODE";
 	        return $temp;
 	    }
 	}
@@ -135,7 +135,7 @@ END;
 	}
 
 	private function createConn() {
-		$ver="p";
+		$ver="";
 
 		if($ver=="p") {
 			// for prod
@@ -149,7 +149,7 @@ END;
 		if (!$conn) {
 		    die("Connection failed: " . mysqli_connect_error());
 		}
-		$this->conn = $conn;
+		$this->conn=$conn;
 	}
 
 	public function getConn() {
