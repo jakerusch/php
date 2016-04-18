@@ -61,7 +61,7 @@ while($row=$result->fetch_assoc()) {
 				  		</ul>
 				  	</div>
 		  		</div>
-		  		<div class="row">
+ 		  		<div class="row">
 		  			<div class="col-md-12">
 		  				<span class="glyphicon pull-right" id="showHideButton"></span>
 		  			</div>
