@@ -19,6 +19,8 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $menu_hide=$row['menu_hide'];
 
+echo $menu_hide;
+
 ?>
 
 			<form class="well">
