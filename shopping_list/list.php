@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
 // get current location instance
-$sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name
+$sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name, location_instances.menu_hide
 	FROM location_instances
 	LEFT JOIN master_locations ON location_instances.location_id = master_locations.location_id 
 	WHERE location_instances.location_instance_id='".$id."'";
@@ -16,13 +16,13 @@ $sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_ins
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 
+$menu_hide=$row['menu_hide'];
+
 ?>
-
 			<form class="well">
-				<div class="form-group">
+				<div class="form-group" id="showHideTarget">
 					<div class="text-center">
-
-<?php 
+<?php
 	echo "<h3>".$row["location_name"]."<small> ".$row['timestamp']."</small></h3>";
 	// echo "<h5><em>Double click to increase quantity.<br />Click and hold to set quantity to one.</em></h5>";
 ?>
@@ -60,6 +60,11 @@ while($row=$result->fetch_assoc()) {
 
 				  		</ul>
 				  	</div>
+		  		</div>
+		  		<div class="row">
+		  			<div class="col-md-12">
+		  				<span class="glyphicon pull-right" id="showHideButton"></span>
+		  			</div>
 		  		</div>
 			</form>
 
@@ -110,7 +115,37 @@ while($row=$result->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}		
+		}
+		if("<?php echo $menu_hide; ?>" == 0) {
+			// show 
+			$("#showHideButton").addClass("glyphicon-menu-up");
+		} else {
+			// hide
+			$("#showHideButton").addClass("glyphicon-menu-down");
+			$("#showHideTarget").hide();
+		}
+		$("#showHideButton").click(function() {
+			if($("#showHideButton").hasClass("glyphicon-menu-down")) {
+				$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
+				$("#showHideTarget").show();
+				MenuHide(0);
+			} else {
+				$("#showHideButton").removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
+				$("#showHideTarget").hide();
+				MenuHide(1);
+			}
+		})
+		function MenuHide(bool) {
+			jQuery.ajax({
+				type: "POST",
+				url: "post/showhidejumbotron.php",
+				data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
+				cache: false,
+				success: function(response) {
+					window.location.reload(false);
+				}
+			})
+		}
 		$("#myList li").on("taphold", function() {
 			var id = $(this).attr('id');
 			var qty = parseInt($(this).find("span.qty").text());
