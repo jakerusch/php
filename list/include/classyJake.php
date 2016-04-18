@@ -15,7 +15,7 @@ class classyJake {
 				$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" && 
 				$_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php" &&
 				$_SERVER['REQUEST_URI']!=="/list/logout.php") {
-				// header("Location:http://php-nwcc.rhcloud.com/list/login.php");
+				header("Location:http://php-nwcc.rhcloud.com/list/login.php");
 			}
 		}
 	}
@@ -135,7 +135,7 @@ END;
 	}
 
 	private function createConn() {
-		$ver="";
+		$ver="p";
 
 		if($ver=="p") {
 			// for prod
