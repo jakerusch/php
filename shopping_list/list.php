@@ -15,10 +15,7 @@ $sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_ins
 
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-
 $menu_hide=$row['menu_hide'];
-
-echo "TEST";
 
 ?>
 
@@ -38,27 +35,27 @@ echo "TEST";
 
 <?php
 
-// items user can add to list and hasn't already done so
-$dropdown = "SELECT item_instances.item_instance_id, item_instances.item_id, item_instances.location_id, item_instances.sort_order, master_items.item_name, location_instances.location_instance_id
-	FROM item_instances
-	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
-	INNER JOIN master_locations ON item_instances.location_id=master_locations.location_id
-	INNER JOIN location_instances ON master_locations.location_id=location_instances.location_id
-	WHERE location_instances.location_instance_id='".$id."'
-    AND item_instances.item_instance_id NOT IN
-	    (SELECT lists.item_instance_id
-		FROM lists
-		INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
-		INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
-		INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
-		INNER JOIN master_items ON item_instances.item_id=master_items.item_id
-		WHERE lists.location_instance_id='".$id."')
-    ORDER BY master_items.item_name ASC";
+// // items user can add to list and hasn't already done so
+// $dropdown = "SELECT item_instances.item_instance_id, item_instances.item_id, item_instances.location_id, item_instances.sort_order, master_items.item_name, location_instances.location_instance_id
+// 	FROM item_instances
+// 	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+// 	INNER JOIN master_locations ON item_instances.location_id=master_locations.location_id
+// 	INNER JOIN location_instances ON master_locations.location_id=location_instances.location_id
+// 	WHERE location_instances.location_instance_id='".$id."'
+//     AND item_instances.item_instance_id NOT IN
+// 	    (SELECT lists.item_instance_id
+// 		FROM lists
+// 		INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
+// 		INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
+// 		INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
+// 		INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+// 		WHERE lists.location_instance_id='".$id."')
+//     ORDER BY master_items.item_name ASC";
 
-$result=$conn->query($dropdown);
-while($row=$result->fetch_assoc()) {
-	echo "<li id=\"".$row["item_instance_id"]."\"><a href=\"#\">".$row["item_name"]."</a></li>";
-}	
+// $result=$conn->query($dropdown);
+// while($row=$result->fetch_assoc()) {
+// 	echo "<li id=\"".$row["item_instance_id"]."\"><a href=\"#\">".$row["item_name"]."</a></li>";
+// }	
 
 ?>
 
@@ -76,24 +73,24 @@ while($row=$result->fetch_assoc()) {
 
 <?php
 
-// items user has added to list
-$getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty, master_locations.location_name, master_items.item_name, item_instances.sort_order, lists.checked_status, lists.qty
-	FROM lists
-	INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
-	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
-	INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
-	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
-	WHERE lists.location_instance_id='".$id."'
-	ORDER BY lists.checked_status ASC, item_instances.sort_order ASC";
+// // items user has added to list
+// $getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty, master_locations.location_name, master_items.item_name, item_instances.sort_order, lists.checked_status, lists.qty
+// 	FROM lists
+// 	INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
+// 	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
+// 	INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
+// 	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+// 	WHERE lists.location_instance_id='".$id."'
+// 	ORDER BY lists.checked_status ASC, item_instances.sort_order ASC";
 
-$result=$conn->query($getList);
-while($row=$result->fetch_assoc()) {
-	if($row['checked_status']==1) {
-		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-check\"></span>".$row['item_name']."</li>";
-	} else {
-		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']." x <span class=\"qty\">".$row['qty']."</span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
-	}
-}
+// $result=$conn->query($getList);
+// while($row=$result->fetch_assoc()) {
+// 	if($row['checked_status']==1) {
+// 		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-check\"></span>".$row['item_name']."</li>";
+// 	} else {
+// 		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']." x <span class=\"qty\">".$row['qty']."</span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
+// 	}
+// }
 
 ?>
 
@@ -103,6 +100,14 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
+		if("<?php echo $menu_hide; ?>" == 0) {
+			// show 
+			$("#showHideButton").addClass("glyphicon-menu-up");
+		} else {
+			// hide
+			$("#showHideButton").addClass("glyphicon-menu-down");
+			$("#showHideTarget").hide();
+		}	
 		$(".dropdown li").click( function() {
 		    var id = $(this).attr("id");
 		    AddListItem(id);
@@ -118,14 +123,6 @@ while($row=$result->fetch_assoc()) {
 				}
 			})
 		}
-		// if("<?php echo $menu_hide; ?>" == 0) {
-		// 	// show 
-		// 	$("#showHideButton").addClass("glyphicon-menu-up");
-		// } else {
-		// 	// hide
-		// 	$("#showHideButton").addClass("glyphicon-menu-down");
-		// 	$("#showHideTarget").hide();
-		// }
 		$("#showHideButton").click(function() {
 			if($("#showHideButton").hasClass("glyphicon-menu-down")) {
 				$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");

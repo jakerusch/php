@@ -20,6 +20,10 @@ class classyJake {
 		}
 	}
 
+	public function getNavigation() {
+		return $this->navigation();
+	}
+
 	// create navigation
 	private function navigation() {
 		if($_SERVER['REQUEST_URI']!=="/shopping_list/login.php") {
@@ -128,7 +132,7 @@ END;
 
 END;
 
-		echo $this->navigation();
+		echo $this->getNavigation();
 
 	}
 
