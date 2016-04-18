@@ -122,16 +122,16 @@ while($row=$result->fetch_assoc()) {
 		} else {
 			// hide
 			$("#showHideButton").addClass("glyphicon-menu-down");
-			$("#showHideTarget").hide();
+			// $("#showHideTarget").hide();
 		}
 		$("#showHideButton").click(function() {
 			if($("#showHideButton").hasClass("glyphicon-menu-down")) {
 				$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
-				$("#showHideTarget").show();
+				// $("#showHideTarget").show();
 				MenuHide(0);
 			} else {
 				$("#showHideButton").removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
-				$("#showHideTarget").hide();
+				// $("#showHideTarget").hide();
 				MenuHide(1);
 			}
 		})
