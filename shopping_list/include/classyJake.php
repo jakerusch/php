@@ -11,8 +11,12 @@ class classyJake {
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {
 			// if not login page or logincheck script, redirect to login page
-			if($_SERVER['REQUEST_URI']!=="/shopping_list/login.php" && $_SERVER['REQUEST_URI']!=="/shopping_list/post/logincheck.php" &&  $_SERVER['REQUEST_URI']!=="/shopping_list/temp/insertuser.php") {
+			if($_SERVER['REQUEST_URI']!=="/shopping_list/login.php" && 
+				$_SERVER['REQUEST_URI']!=="/shopping_list/post/logincheck.php" && 
+				$_SERVER['REQUEST_URI']!=="/shopping_list/temp/insertuser.php" &&
+				$_SERVER['REQUEST_URI']!=="/shopping_list/logout.php") {
 				header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
+			}
 		}
 	}
 
