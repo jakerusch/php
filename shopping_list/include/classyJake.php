@@ -8,13 +8,13 @@ class classyJake {
 	private $conn;
 
 	public function __construct() {
-		echo "REDIRECT: ".$_SERVER['REQUEST_URI'];
+		// echo "REDIRECT: ".$_SERVER['REQUEST_URI'];
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {
 			// if not login page or logincheck script, redirect to login page
 			if($_SERVER['REQUEST_URI']!=="/shoping_list/login.php" && $_SERVER['REQUEST_URI']!=="/shopping_list/post/logincheck.php" &&  $_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php" && $_SERVER['REQUEST_URI']) {
-				// header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
-				// exit();
+				header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
+				exit();
 				// header("Location:localhost:81/shopping_list/login.php");
 			}
 		}
