@@ -7,19 +7,17 @@ $conn=$obj->getConn();
 $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
-echo $id;
-
 // get current location instance
 $sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name, location_instances.menu_hide
 	FROM location_instances
 	LEFT JOIN master_locations ON location_instances.location_id = master_locations.location_id 
 	WHERE location_instances.location_instance_id='".$id."'";
 
+echo $sql;
+
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $menu_hide=$row['menu_hide'];
-
-echo $menu_hide;
 
 ?>
 
