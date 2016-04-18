@@ -114,16 +114,17 @@ while($row=$result->fetch_assoc()) {
 		$("#myList li").on("taphold", function() {
 			var id = $(this).attr('id');
 			var qty = parseInt($(this).find("span.qty").text());
-			if(qty>1 && confirm("Do you want to set the quantity to 1?")) {
+			if(qty>1) {
+			// if(qty>1 && confirm("Do you want to set the quantity to 1?")) {
 				UpdateQty(id, 1);
 			}
 		})
 		$("#myList li").on("dblclick", function() {
 			var id = $(this).attr('id');
 			var qty = parseInt($(this).find("span.qty").text()) + 1;
-			if(confirm("Do you want to set the quantity to "+qty+"?")) {
+			// if(confirm("Do you want to set the quantity to "+qty+"?")) {
 				UpdateQty(id, qty);
-			}
+			// }
 		})
 		function UpdateQty(item_instance_id, qty) {
 			jQuery.ajax({
