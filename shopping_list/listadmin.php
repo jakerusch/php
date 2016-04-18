@@ -82,7 +82,7 @@ while($row=$result->fetch_assoc()) {
 			var myTitle = $(this).closest("li").text();
 			if (confirm('Are you sure you want to delete '+myTitle+'?')) {
 				DeleteListLocation(myID);
-			}
+			}			
 		})
 		function DeleteListLocation(location_instance_id) {
 			jQuery.ajax({

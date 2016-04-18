@@ -61,7 +61,9 @@ while($row=$result->fetch_assoc()) {
 			var myID = $(this).closest("li").attr("id");
 			var myTitle = $(this).closest("li").text();
 			if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-				DeleteItemRecord(myID.replace("item-", ""));
+				if(confirm('This will delete all instances of '+myTitle+' and cannot be undone.  Are you sure you want to proceed?')) {				
+					DeleteItemRecord(myID.replace("item-", ""));
+				}
 			}
 		})
 		function DeleteItemRecord(id) {

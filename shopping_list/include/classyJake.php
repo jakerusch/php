@@ -15,7 +15,7 @@ class classyJake {
 				$_SERVER['REQUEST_URI']!=="/shopping_list/post/logincheck.php" && 
 				$_SERVER['REQUEST_URI']!=="/shopping_list/temp/insertuser.php" &&
 				$_SERVER['REQUEST_URI']!=="/shopping_list/logout.php") {
-				header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
+				// header("Location:http://php-nwcc.rhcloud.com/shopping_list/login.php");
 			}
 		}
 	}
@@ -96,6 +96,8 @@ echo ucwords($this->getTitle());
   	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   	<!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+	<!-- jquery taphold -->
+	<script src="js/jquery-taphold-master/taphold.js"></script>
 	<!-- icons -->
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
@@ -133,7 +135,7 @@ echo $this->navigation();
 	}
 
 	private function createConn() {
-		$ver="p";
+		$ver="";
 
 		if($ver=="p") {
 			// for prod

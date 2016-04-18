@@ -24,6 +24,7 @@ $row = $result->fetch_assoc();
 
 <?php 
 	echo "<h3>".$row["location_name"]."<small> ".$row['timestamp']."</small></h3>";
+	// echo "<h5><em>Double click to increase quantity.<br />Click and hold to set quantity to one.</em></h5>";
 ?>
 
 					</div>
@@ -57,9 +58,9 @@ while($row=$result->fetch_assoc()) {
 
 ?>
 
-					  	</ul>
-					</div>
-			  	</div>
+				  		</ul>
+				  	</div>
+		  		</div>
 			</form>
 
 			<ul class="list-group" id="myList">
@@ -67,7 +68,7 @@ while($row=$result->fetch_assoc()) {
 <?php
 
 // items user has added to list
-$getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty, master_locations.location_name, master_items.item_name, item_instances.sort_order, lists.checked_status
+$getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty, master_locations.location_name, master_items.item_name, item_instances.sort_order, lists.checked_status, lists.qty
 	FROM lists
 	INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
 	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
@@ -82,7 +83,7 @@ while($row=$result->fetch_assoc()) {
 	if($row['checked_status']==1) {
 		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-check\"></span>".$row['item_name']."</li>";
 	} else {
-		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']."<span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
+		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']." x <span class=\"qty\">".$row['qty']."</span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
 	}
 
 }
@@ -98,7 +99,7 @@ while($row=$result->fetch_assoc()) {
 		$(".dropdown li").click( function() {
 		    var id = $(this).attr("id");
 		    AddListItem(id);
-		});
+		})
  		function AddListItem(item_instance_id) {
 			jQuery.ajax({
 				type: "POST",
@@ -109,7 +110,32 @@ while($row=$result->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}	
+		}		
+		$("#myList li").on("taphold", function() {
+			var id = $(this).attr('id');
+			var qty = parseInt($(this).find("span.qty").text());
+			if(qty>1 && confirm("Do you want to set the quantity to 1?")) {
+				UpdateQty(id, 1);
+			}
+		})
+		$("#myList li").on("dblclick", function() {
+			var id = $(this).attr('id');
+			var qty = parseInt($(this).find("span.qty").text()) + 1;
+			if(confirm("Do you want to set the quantity to "+qty+"?")) {
+				UpdateQty(id, qty);
+			}
+		})
+		function UpdateQty(item_instance_id, qty) {
+			jQuery.ajax({
+				type: "POST",
+				url: "post/updateqty.php",
+				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, qty: qty},
+				cache: false,
+				success: function(response) {
+					window.location.reload(true);
+				}
+			})
+		}
 		$("span").click(function(event) {
 			var id = $(this).parent().attr("id");
 			// check, disable, and move to end

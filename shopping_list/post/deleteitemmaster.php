@@ -2,7 +2,6 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/shopping_list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
-$sid=$_SESSION['user_id'];
 
 $item_id = $_POST['item_id'];
 
