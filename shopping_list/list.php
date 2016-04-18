@@ -4,6 +4,7 @@ $obj = new classyJake();
 $pageName = basename(__FILE__, '.php');
 $obj->createPage($pageName);
 $conn=$obj->getConn();
+$sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
 // get current location instance
