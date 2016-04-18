@@ -133,7 +133,7 @@ END;
 	}
 
 	private function createConn() {
-		$ver="";
+		$ver="p";
 
 		if($ver=="") {
 			// for prod
