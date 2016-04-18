@@ -128,16 +128,14 @@ END;
 
 END;
 
-echo $this->navigation();
-			
-
+		echo $this->navigation();
 
 	}
 
 	private function createConn() {
-		$ver="p";
+		$ver="";
 
-		if($ver=="p") {
+		if($ver=="") {
 			// for prod
 			$conn = mysqli_connect(getenv('OPENSHIFT_MYSQL_DB_HOST'), getenv('OPENSHIFT_MYSQL_DB_USERNAME'), getenv('OPENSHIFT_MYSQL_DB_PASSWORD'), "shopping_list", getenv('OPENSHIFT_MYSQL_DB_PORT'));
 		} else {
