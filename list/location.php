@@ -101,7 +101,7 @@ while($row3=$result3->fetch_assoc()) {
 					data: data,
 					cache: false,
 					success: function(response) {
-						window.location.reload(true);
+						window.location.reload(false);
 					}
 				});
 			}

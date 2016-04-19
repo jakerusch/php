@@ -154,7 +154,7 @@ while($row=$result->fetch_assoc()) {
 			var id = $(this).attr('id');
 			var qty = parseInt($(this).find("span.qty").text());
 			if(qty>1 && confirm("Do you want to set the quantity to 1?")) {
-				UpdateQty(id, 1);
+				$(this).find("span.qty").text(UpdateQty(id, 1));
 			}
 		})
 		var mylatesttap;
@@ -165,7 +165,7 @@ while($row=$result->fetch_assoc()) {
 				var id = $(this).attr('id');
 				var qty = parseInt($(this).find("span.qty").text()) + 1;
 				if(confirm("Do you want to set the quantity to "+qty+"?")) {
-					UpdateQty(id, qty);
+					$(this).find("span.qty").text(UpdateQty(id, qty));
 				}
 		   	}
 		   	mylatesttap = new Date().getTime();
@@ -177,7 +177,7 @@ while($row=$result->fetch_assoc()) {
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, qty: qty},
 				cache: false,
 				success: function(response) {
-					window.location.reload(true);
+					window.location.reload(false);
 				}
 			})
 		}
