@@ -1,3 +1,3 @@
 <?php
-	echo "Howdy";
+	header('Location:http://php-nwcc.rhcloud.com/list/listadmin.php');
 ?>

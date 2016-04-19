@@ -24,7 +24,7 @@ $menu_hide=$row['menu_hide'];
 					<div class="text-center">
 
 <?php
-	echo "<h3>".$row["location_name"]."<small> ".$row['timestamp']."</small></h3>";
+	echo "<h3 id=\"title\">".$row["location_name"]."<small> ".$row['timestamp']."</small></h3>";
 	// echo "<h5><em>Double click to increase quantity.<br />Click and hold to set quantity to one.</em></h5>";
 ?>
 
@@ -64,7 +64,7 @@ while($row=$result->fetch_assoc()) {
 		  		</div>
  		  		<div class="row">
 		  			<div class="col-md-12">
-		  				<span class="glyphicon pull-right" id="showHideButton"></span>
+		  				<span class="glyphicon pull-right" id="showHideButton"></span><span class="pull-right" id="showHideText"></span>
 		  			</div>
 		  		</div>
 			</form>
@@ -104,10 +104,14 @@ while($row=$result->fetch_assoc()) {
 			// show 
 			$("#showHideButton").addClass("glyphicon-menu-up");
 			$("#showHideTarget").show();
+			$("#showHideText").text();
 		} else {
 			// hide
 			$("#showHideButton").addClass("glyphicon-menu-down");
 			$("#showHideTarget").hide();
+			// var title = $($('#title').contents()[0]).text();
+			var title = $("#title").text();
+			$("#showHideText").text(title);
 		}	
 		$(".dropdown li").click( function() {
 		    var id = $(this).attr("id");

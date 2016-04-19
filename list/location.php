@@ -119,7 +119,7 @@ while($row3=$result3->fetch_assoc()) {
 			jQuery.ajax({
 				type: "POST",
 				url: "post/deletelistmaster.php",
-				data: {item_instance_id: item_instance_id},
+				data: {item_instance_id: item_instance_id, location_instance_id: "<?php echo $id; ?>"},
 				cache: false,
 				success: function(response) {
 					window.location.reload(true);
