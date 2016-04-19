@@ -88,7 +88,12 @@ while($row=$result->fetch_assoc()) {
 	if($row['checked_status']==1) {
 		echo "<li class=\"list-group-item disabled\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-check\"></span>".$row['item_name']."</li>";
 	} else {
-		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']." x <span class=\"qty\">".$row['qty']."</span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
+		if($row['qty']>1) {
+			// if greater than 1
+			echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']."<span class=\"multiplier\"> x </span><span class=\"qty\">".$row['qty']."</span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";	
+		} else {
+		echo "<li class=\"list-group-item\" id=\"".$row['item_instance_id']."\"><span class=\"glyphicon glyphicon-unchecked\"></span>".$row['item_name']."<span class=\"multiplier\"></span><span class=\"qty\"></span><span class=\"glyphicon glyphicon-trash pull pull-right\"></span></li>";
+		}
 	}
 }
 
@@ -154,7 +159,12 @@ while($row=$result->fetch_assoc()) {
 			var id = $(this).attr('id');
 			var qty = parseInt($(this).find("span.qty").text());
 			if(qty>1 && confirm("Do you want to set the quantity to 1?")) {
-				$(this).find("span.qty").text(UpdateQty(id, 1));
+				// set qty to 1 in db
+				UpdateQty(id, 1);
+				// hide qty
+				$(this).find("span.qty").text();
+				// remove " x " 
+				$(this).find("span.multiplier").text();
 			}
 		})
 		var mylatesttap;
@@ -164,8 +174,17 @@ while($row=$result->fetch_assoc()) {
 			if((timesince<600) && (timesince>0)) {
 				var id = $(this).attr('id');
 				var qty = parseInt($(this).find("span.qty").text()) + 1;
+				// if blank, turn to 2
+				if(isNaN(qty)) { 
+					qty=2; 
+				}
 				if(confirm("Do you want to set the quantity to "+qty+"?")) {
+					// set value
 					$(this).find("span.qty").text(UpdateQty(id, qty));
+					// add x if not found
+					if($(this).find("span.multiplier").text()=="") {
+						$(this).find("span.multiplier").text(" x ");	
+					}
 				}
 		   	}
 		   	mylatesttap = new Date().getTime();
