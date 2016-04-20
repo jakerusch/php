@@ -47,7 +47,7 @@ while($row=$result->fetch_assoc()) {
 		})
 		// add new record function
 		function AddLocation(val) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/addnewlocationmaster.php",
 				data: {location_title: val},
@@ -71,7 +71,7 @@ while($row=$result->fetch_assoc()) {
 			}
 		})
 		function DeleteLocationRecord(id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/deletelocationmaster.php",
 				data: {location_id: id},

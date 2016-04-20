@@ -31,7 +31,7 @@ $obj->createPage($pageName);
 		})
 		// add new record function
 		function Login(email, password) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/logincheck.php",
 				data: {email: email, password: password},

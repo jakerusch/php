@@ -58,7 +58,7 @@ while($row=$result->fetch_assoc()) {
 		})
 		// add new record function
 		function AddRecord(val) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/addnewitem.php",
 				data: {title: val},
@@ -79,7 +79,7 @@ while($row=$result->fetch_assoc()) {
 			event.preventDefault();
 		})
 		function DeleteRecord(id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/deleteitem.php",
 				data: {item_id: id},

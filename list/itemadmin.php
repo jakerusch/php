@@ -42,7 +42,7 @@ while($row=$result->fetch_assoc()) {
 		})
 		// add new record function
 		function AddItem(val) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/addnewitemmaster.php",
 				data: {item_name: val},
@@ -66,7 +66,7 @@ while($row=$result->fetch_assoc()) {
 			}
 		})
 		function DeleteItemRecord(id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/deleteitemmaster.php",
 				data: {item_id: id},

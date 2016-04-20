@@ -80,7 +80,7 @@ while($row3=$result3->fetch_assoc()) {
 		    AddListItem(id);
 		})
 		function AddListItem(item_id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/addnewlistitemmaster.php",
 				data: {item_id: item_id, location_id: "<?php echo $id; ?>"},
@@ -108,15 +108,15 @@ while($row3=$result3->fetch_assoc()) {
 		})
 		$("span").click(function(event) {
 			var id = $(this).parent().attr("id");
-			if ($(this).hasClass("glyphicon-trash")) {
+			if($(this).hasClass("glyphicon-trash")) {
 				var myTitle = $(this).parent().text();
-				if (confirm('Are you sure you want to delete '+myTitle+'?')) {
+				if(confirm('Are you sure you want to delete '+myTitle+'?')) {
 					DeleteRecord(id.replace("item-", ""));
 				}
 			}
 		})
 		function DeleteRecord(item_instance_id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/deletelistmaster.php",
 				data: {item_instance_id: item_instance_id, location_instance_id: "<?php echo $id; ?>"},

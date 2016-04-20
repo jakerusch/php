@@ -123,7 +123,7 @@ while($row=$result->fetch_assoc()) {
 		    AddListItem(id);
 		})
  		function AddListItem(item_instance_id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/addlistitem.php",
 				data: {location_instance_id: "<?php echo $id ?>", item_instance_id: item_instance_id},
@@ -145,7 +145,7 @@ while($row=$result->fetch_assoc()) {
 			}
 		})
 		function MenuHide(bool) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/showhidejumbotron.php",
 				data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
@@ -190,7 +190,7 @@ while($row=$result->fetch_assoc()) {
 		   	mylatesttap = new Date().getTime();
 		})
 		function UpdateQty(item_instance_id, qty) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/updateqty.php",
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, qty: qty},
@@ -225,7 +225,7 @@ while($row=$result->fetch_assoc()) {
 			}
 		})
 		function UpdateRecord(item_instance_id, status, refresh) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/updatehidden.php",
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, status: status},
@@ -240,7 +240,7 @@ while($row=$result->fetch_assoc()) {
 			})
 		}	
 		function DeleteLocationRecord(item_instance_id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/deletelistitem.php",
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id},

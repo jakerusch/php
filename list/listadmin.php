@@ -85,7 +85,7 @@ while($row=$result->fetch_assoc()) {
 			}			
 		})
 		function DeleteListLocation(location_instance_id) {
-			jQuery.ajax({
+			$.ajax({
 				type: "POST",
 				url: "post/deletelistlocation.php",
 				data: {location_instance_id: location_instance_id},
