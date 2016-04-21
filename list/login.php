@@ -23,6 +23,8 @@ $obj->createPage($pageName);
 </div>
 	<script>
 	$(function() {
+		// set focus on email
+		$('#email').focus();
 		$("#login").submit(function(event) {
 			event.preventDefault();
 			var email = $("#email").val();

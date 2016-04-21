@@ -10,7 +10,7 @@ $conn=$obj->getConn();
 			<form class="well" id="addNewLocation">
 				<div class="form-group">
 					<label for="locationTitle">Add New Master Location</label>
-					<input type="locationTitle" class="form-control" id="locationTitle" name="locationTitle" placeholder="Location Name">
+					<input type="text" class="form-control" id="locationTitle" name="locationTitle" placeholder="Location Name">
 				</div>
 				<button type="submit" class="btn btn-default" id="addLocation"><span class="glyphicon glyphicon-plus"></span> Add</button>
 			</form>
@@ -32,6 +32,9 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
+		// set cursor to input box
+		$('#locationTitle').focus();
+		// direct to location.php when li is clicked
 		$("li.list-group-item").click(function(event) {
 			var id = $(this).attr("id");
 			var title = $(this).text();

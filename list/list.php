@@ -129,7 +129,11 @@ while($row=$result->fetch_assoc()) {
 				data: {location_instance_id: "<?php echo $id ?>", item_instance_id: item_instance_id},
 				cache: false,
 				success: function(response) {
-					window.location.reload(true);
+					if(response==1) {
+						window.location.reload(true);
+					} else {
+						alert(response);
+					}
 				}
 			})
 		}
@@ -151,7 +155,11 @@ while($row=$result->fetch_assoc()) {
 				data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
 				cache: false,
 				success: function(response) {
-					window.location.reload(false);
+					if(response==1) {
+						window.location.reload(false);
+					} else {
+						alert(response);
+					}
 				}
 			})
 		}
@@ -233,8 +241,12 @@ while($row=$result->fetch_assoc()) {
 				success: function(response) {
 					// only refresh is item is unchecked and returned to list
 					// forces sort order
-					if(refresh==true) {
-						window.location.reload(true);
+					if(response==1) {
+						if(refresh==true) {
+							window.location.reload(true);
+						}
+					} else {
+						alert(response);
 					}
 				}
 			})
@@ -246,7 +258,11 @@ while($row=$result->fetch_assoc()) {
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id},
 				cache: false,
 				success: function(response) {
-					window.location.reload(true);
+					if(response==1) {
+						window.location.reload(true);
+					} else {
+						alert(response);
+					}
 				}
 			})
 		}

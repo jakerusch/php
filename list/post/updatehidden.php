@@ -9,7 +9,7 @@ $status=$_POST['status'];
 
 $sql = "UPDATE lists SET checked_status='".$status."' WHERE location_instance_id='".$location_instance_id."' AND item_instance_id='".$item_instance_id."'";
 if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    echo 1;
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

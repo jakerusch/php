@@ -8,7 +8,7 @@ $location_instance_id=$_POST['location_instance_id'];
 
 $sql = "UPDATE location_instances SET menu_hide='".$menu_hide."' WHERE location_instance_id='".$location_instance_id."'";
 if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    echo 1;
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

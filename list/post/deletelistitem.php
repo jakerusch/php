@@ -8,7 +8,7 @@ $location_instance_id=$_POST['location_instance_id'];
 
 $sql = "DELETE FROM lists WHERE item_instance_id='".$item_instance_id."' AND location_instance_id='".$location_instance_id."'";
 if ($conn->query($sql) === TRUE) {
-    echo "Record deleted successfully";
+    echo 1;
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

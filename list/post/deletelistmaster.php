@@ -12,7 +12,7 @@ $sql1 = "DELETE lists FROM lists WHERE lists.item_instance_id='".$item_instance_
 $sql2 = "DELETE item_instances FROM item_instances WHERE item_instances.item_instance_id='".$item_instance_id."'";
 
 if ($conn->query($sql1) === TRUE && $conn->query($sql2) === TRUE) {
-    echo "Record deleted successfully";
+    echo 1;
 } else {
     echo "Error: " . $sql1 . "<br>" . $conn->error;
 }

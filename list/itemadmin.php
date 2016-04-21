@@ -10,7 +10,7 @@ $conn=$obj->getConn();
 			<form class="well" id="addNewItem">
 				<div class="form-group">
 					<label for="itemName">Add New Master Item</label>
-					<input type="itemName" class="form-control" id="itemName" name="itemName" placeholder="Item Name">
+					<input type="text" class="form-control" id="itemName" name="itemName" placeholder="Item Name">
 				</div>
 				<button type="submit" class="btn btn-default" id="addItem"><span class="glyphicon glyphicon-plus"></span> Add</button>
 			</form>
@@ -32,6 +32,8 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
+		// set focus on input box
+		$('#itemName').focus();
 		// add new list
 		$("#addNewItem").submit(function(event) {
 			event.preventDefault();
@@ -48,7 +50,11 @@ while($row=$result->fetch_assoc()) {
 				data: {item_name: val},
 				cache: false,
 				success: function(response) {
-					window.location.reload(true);
+					if(response==1) {
+						window.location.reload(true);	
+					} else {
+						alert(response);
+					}
 				}
 			});
 		}
@@ -72,7 +78,11 @@ while($row=$result->fetch_assoc()) {
 				data: {item_id: id},
 				cache: false,
 				success: function(response) {
-					window.location.reload(true);
+					if(response==1) {
+						window.location.reload(true);
+					} else {
+						alert(response);
+					}
 				}
 			})
 		}
