@@ -20,10 +20,23 @@ class classyJake {
 		}
 	}
 
+	private function checkUser() {
+		$sql = "SELECT users.access_id FROM users WHERE users.user_id='".$_SESSION['user_id']."'";
+		$conn = $this->getConn();
+		$result = $conn->query($sql);
+		$row=$result->fetch_assoc();
+		return $row["access_id"];
+	}
+
 	// create navigation
 	private function navigation() {
 		if($_SERVER['REQUEST_URI']!=="/list/login.php") {
-			$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
+			// determines what level of access user has
+			if($this->checkUser()==1) {
+				$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Users" => "useradmin.php");
+			} else {
+				$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");		
+			}
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
 					<button class=\"navbar-toggle collapsed\" aria-expanded=\"false\" aria-controls=\"navbar\" type=\"button\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
