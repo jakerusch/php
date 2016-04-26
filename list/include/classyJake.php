@@ -18,7 +18,8 @@ class classyJake {
 			if($_SERVER['REQUEST_URI']!=="/list/login.php" && 
 				$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" && 
 				$_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php" &&
-				$_SERVER['REQUEST_URI']!=="/list/logout.php") {
+				$_SERVER['REQUEST_URI']!=="/list/logout.php" &&
+				$_SERVER['REQUEST_URI']!=="/list/register.php") {
 				if($this->prod==true) {
 					header("Location:http://php-nwcc.rhcloud.com/list/login.php");
 				}
