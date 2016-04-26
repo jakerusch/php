@@ -49,6 +49,8 @@ class classyJake {
 			}
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
+      				<a class=\"navbar-brand\" href=\"index.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
+      				</a>		
 					<button class=\"navbar-toggle collapsed\" aria-expanded=\"false\" aria-controls=\"navbar\" type=\"button\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
 						<span class=\"sr-only\">Toggle navigation</span>
 						<span class=\"icon-bar\"></span>

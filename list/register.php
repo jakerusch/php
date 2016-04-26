@@ -5,7 +5,7 @@ $pageName = basename(__FILE__, '.php');
 $obj->createPage($pageName);
 
 ?>
-			<h2 class="well text-center">Registration</h2>
+			<h2 class="well text-center">The Short List <span class="glyphicon glyphicon-list-alt"></span><br />Registration</h2>
 
 			<form class="well" id="register">
 				<div class="form-group">

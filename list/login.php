@@ -5,7 +5,7 @@ $pageName = basename(__FILE__, '.php');
 $obj->createPage($pageName);
 
 ?>
-			<h2 class="well text-center">Login</h2>
+			<h2 class="well text-center">The Short List <span class="glyphicon glyphicon-list-alt"></span><br />Login</h2>
 
 			<form class="well" id="login">
 				<div class="form-group">
@@ -17,6 +17,8 @@ $obj->createPage($pageName);
 				<button type="submit" class="btn btn-default" id="loginCheck">Login</button>
 				<h5 id="error" class="text-danger"></h5>
 			</form>
+
+			<h5 class="well text-right">Don't have an account? <a href="register.php">Sign up</a></h5>
 
 		</div>
 	</div>
