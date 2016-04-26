@@ -7,6 +7,17 @@ $conn=$obj->getConn();
 $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
+// redirect if user does not have access
+$sql="SELECT location_instances.location_instance_id, location_instances.location_id, master_locations.user_id
+	FROM location_instances
+	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
+	WHERE location_instances.location_instance_id='".$id."' AND master_locations.user_id='".$sid."'";
+$result=$conn->query($sql);
+$num_rows=$result->num_rows;
+if($num_rows!==1) {
+	header('Location:http://php-nwcc.rhcloud.com/list/listadmin.php');
+}
+
 // get current location instance
 $sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name, location_instances.menu_hide
 	FROM location_instances

@@ -4,6 +4,7 @@ $obj = new classyJake();
 $pageName = basename(__FILE__, '.php');
 $obj->createPage($pageName);
 $conn=$obj->getConn();
+$sid=$_SESSION['user_id'];
 
 ?>
 
@@ -19,7 +20,7 @@ $conn=$obj->getConn();
 
 <?php
 
-$getList = "SELECT location_id, location_name FROM master_locations ORDER BY location_name ASC";
+$getList = "SELECT master_locations.location_id, master_locations.location_name FROM master_locations WHERE master_locations.user_id='".$sid."' ORDER BY location_name ASC";
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {
 	echo "<li class=\"list-group-item\" id=\"".$row['location_id']."\">".$row['location_name']."<span class=\"glyphicon glyphicon-trash pull-right\"></span></li>";

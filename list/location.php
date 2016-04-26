@@ -7,6 +7,16 @@ $conn=$obj->getConn();
 $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
+// redirect if user does not have access
+$sql="SELECT master_locations.location_id, master_locations.user_id
+	FROM master_locations
+	WHERE master_locations.location_id='".$id."' AND master_locations.user_id='".$sid."'";
+$result=$conn->query($sql);
+$num_rows=$result->num_rows;
+if($num_rows!==1) {
+	header('Location:http://php-nwcc.rhcloud.com/list/locationadmin.php');
+}
+
 $sql = "SELECT location_name FROM master_locations WHERE location_id='".$id."' LIMIT 1";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
@@ -30,7 +40,7 @@ $row = $result->fetch_assoc();
 
 $dropdown = "SELECT master_items.item_name, master_items.item_id
 	FROM master_items
-	WHERE master_items.item_id NOT IN 
+	WHERE master_items.user_id='".$sid."' AND master_items.item_id NOT IN 
 		(SELECT master_items.item_id
 			FROM master_items
 			LEFT JOIN item_instances ON master_items.item_id=item_instances.item_id
@@ -125,7 +135,7 @@ while($row3=$result3->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}	 	
+		}		 	
 	});
 	</script>
 	</body>

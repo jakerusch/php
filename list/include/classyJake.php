@@ -9,7 +9,8 @@ class classyJake {
 	private $prod;
 
 	public function __construct() {
-		$this->prod=true;
+		// easy check for test vs prod
+		$this->prod=false;
 		$this->createConn();
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {

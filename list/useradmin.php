@@ -9,9 +9,10 @@ $conn=$obj->getConn();
 $sql = "SELECT users.user_email, users.user_first_name, users.user_last_name, 'TRUE' as val
 	FROM users
 	INNER JOIN allowed_users ON users.user_email=allowed_users.user_email
-	UNION
-	SELECT allowed_users.user_email, NULL AS fn, NULL AS ln, 'FALSE' as val
-	FROM allowed_users";
+    UNION
+   	SELECT allowed_users.user_email, NULL AS fn, NULL AS ln, 'FALSE' as val
+        FROM allowed_users
+        WHERE allowed_users.user_email NOT IN (SELECT users.user_email FROM users)";
 $result=$conn->query($sql);
 
 ?>
