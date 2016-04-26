@@ -36,7 +36,7 @@ class classyJake {
 
 	// create navigation
 	private function navigation() {
-		if($_SERVER['REQUEST_URI']!=="/list/login.php") {
+		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php") {
 			if($this->prod==false) {
 				// determines what level of access user has
 				if($this->checkUser()==1) {
