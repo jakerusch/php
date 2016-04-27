@@ -8,9 +8,9 @@ class classyJake {
 	private $conn;
 	private $prod;
 
-	public function __construct() {
+	public function __construct() {		
 		// easy check for test vs prod
-		$this->prod=true;
+		$this->prod=false;
 		$this->createConn();
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {
@@ -18,35 +18,31 @@ class classyJake {
 			if($_SERVER['REQUEST_URI']!=="/list/login.php" && 
 				$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" && 
 				$_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php" &&
-				$_SERVER['REQUEST_URI']!=="/list/logout.php" &&
-				$_SERVER['REQUEST_URI']!=="/list/register.php") {
+				$_SERVER['REQUEST_URI']!=="/list/logout.php") {
 				if($this->prod==true) {
 					header("Location:http://php-nwcc.rhcloud.com/list/login.php");
+				} else {
+					header("Location:http://localhost:81/list/login.php");
 				}
 			}
 		}
 	}
 
-	private function checkUser() {
-		$sql = "SELECT users.access_id FROM users WHERE users.user_id='".$_SESSION['user_id']."'";
-		$result = $this->conn->query($sql);
-		$row=$result->fetch_assoc();
-		return $row["access_id"];
+	public function checkUser() {
+		if(isset($_SESSION['user_id'])) {
+			$sql = "SELECT users.access_id 
+				FROM users 
+				WHERE users.user_id='".$_SESSION['user_id']."'";
+			$result = $this->conn->query($sql);
+			$row=$result->fetch_assoc();
+			return $row["access_id"];	
+		}
 	}
 
 	// create navigation
 	private function navigation() {
-		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php") {
-			if($this->prod==false) {
-				// determines what level of access user has
-				if($this->checkUser()==1) {
-					$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Users" => "useradmin.php");
-				} else {
-					$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");		
-				}	
-			} else {
-				$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");		
-			}
+		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php" && $_SERVER['REQUEST_URI']!=="/list/logout.php") {
+			$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
       				<a class=\"navbar-brand\" href=\"index.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
@@ -81,10 +77,6 @@ class classyJake {
 		$this->addHeader();
 		$this->addNavigation();
 	}
-	
-	// public function getTitle() {
-	// 	return $this->title;
-	// }
 	
 	public function addHeader() {
 		
