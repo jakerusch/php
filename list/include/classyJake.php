@@ -17,7 +17,6 @@ class classyJake {
 			// if not login page or logincheck script, redirect to login page
 			if($_SERVER['REQUEST_URI']!=="/list/login.php" && 
 				$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" && 
-				$_SERVER['REQUEST_URI']!=="/list/temp/insertuser.php" &&
 				$_SERVER['REQUEST_URI']!=="/list/logout.php") {
 				if($this->prod==true) {
 					header("Location:http://php-nwcc.rhcloud.com/list/login.php");
@@ -42,10 +41,11 @@ class classyJake {
 	// create navigation
 	private function navigation() {
 		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php" && $_SERVER['REQUEST_URI']!=="/list/logout.php") {
-			$navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
+			// $navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
+			$navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php");
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
-      				<a class=\"navbar-brand\" href=\"index.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
+      				<a class=\"navbar-brand\" href=\"listadmin.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
       				</a>		
 					<button class=\"navbar-toggle collapsed\" aria-expanded=\"false\" aria-controls=\"navbar\" type=\"button\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
 						<span class=\"sr-only\">Toggle navigation</span>
