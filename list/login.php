@@ -18,7 +18,7 @@ $obj->createPage($pageName);
 				<h5 id="error" class="text-danger"></h5>
 			</form>
 
-			<h5 class="well text-right">Don't have an account? <a href="register.php">Sign up</a></h5>
+			<!-- <h5 class="well text-right">Don't have an account? <a href="register.php">Sign up</a></h5> -->
 
 		</div>
 	</div>
