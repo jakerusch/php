@@ -17,7 +17,4 @@ $obj->createPage($pageName);
 	});
 	</script>
 	</body>
-<footer>
-<a href="http://www.beyondsecurity.com/vulnerability-scanner-verification/php-nwcc.rhcloud.com"><img src="https://seal.beyondsecurity.com/verification-images/php-nwcc.rhcloud.com/vulnerability-scanner-2.gif" alt="Website Security Test" border="0" /></a>
-</footer>
 </html>
