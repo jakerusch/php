@@ -13,6 +13,7 @@ $max = $row[0] + 1;
 
 // creates new list
 $sql = "INSERT INTO item_instances(item_id, location_id, sort_order) VALUES('".$item_id."', '".$location_id."', $max)";
+
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {
