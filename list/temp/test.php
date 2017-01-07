@@ -7,9 +7,9 @@ $conn=$obj->getConn();
 $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
+
 // redirect if user does not have access
-$sql="SELECT location_instances.location_instance_id, location_instances.location_id,
-	master_locations.user_id
+$sql="SELECT location_instances.location_instance_id, location_instances.location_id, master_locations.user_id
 	FROM location_instances
 	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
 	WHERE location_instances.location_instance_id='".$id."' AND master_locations.user_id='".$sid."'";
@@ -20,8 +20,7 @@ if($num_rows!==1) {
 }
 
 // get current location instance
-$sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp,
-	master_locations.location_name, location_instances.menu_hide
+$sql = "SELECT location_instances.location_instance_id, DATE_FORMAT(location_instances.location_timestamp, '%c/%e/%Y') as timestamp, master_locations.location_name, location_instances.menu_hide
 	FROM location_instances
 	LEFT JOIN master_locations ON location_instances.location_id = master_locations.location_id
 	WHERE location_instances.location_instance_id='".$id."'";
@@ -32,7 +31,18 @@ $menu_hide=$row['menu_hide'];
 
 ?>
 
-			<form id="searchForm" class="well">
+<div>user_id=<?php echo $sid; ?></div>
+<div>id=<?php echo $id; ?></div>
+
+<div class="ui-widget">
+	<label for="skills">Skills: </label>
+	<input id="skills">
+</div>
+
+<div id="id">ID: </div>
+<div id="label">Label: </div>
+
+			<form class="well">
 				<div class="form-group" id="showHideTarget">
 					<div class="text-center">
 
@@ -42,20 +52,82 @@ $menu_hide=$row['menu_hide'];
 ?>
 
 					</div>
-					    <div class="input-group dropdown">
+
+
+
+
+
+					<!-- <form>
+					  <div class="form-group">
+					    <label for="searchItem">Email address</label>
+					    <input type="text" class="form-control" id="searchItem" placeholder="Search">
+					  </div>
+					</form> -->
+
+					    <div class="input-group">
 					      <div class="input-group-btn">
-					        <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Items <span class="caret"></span></button> -->
-									<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Items <span class="caret"></span></button>
+					        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Items <span class="caret"></span></button>
 					        <ul class="dropdown-menu">
 
 
 <?php
 
+// items user can add to list and hasn't already done so
+$dropdown = "SELECT item_instances.item_instance_id, item_instances.item_id, item_instances.location_id, item_instances.sort_order, master_items.item_name, location_instances.location_instance_id
+	FROM item_instances
+	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+	INNER JOIN master_locations ON item_instances.location_id=master_locations.location_id
+	INNER JOIN location_instances ON master_locations.location_id=location_instances.location_id
+	WHERE location_instances.location_instance_id='".$id."'
+    AND item_instances.item_instance_id NOT IN
+	    (SELECT lists.item_instance_id
+		FROM lists
+		INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
+		INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
+		INNER JOIN item_instances ON lists.item_instance_id=item_instances.item_instance_id
+		INNER JOIN master_items ON item_instances.item_id=master_items.item_id
+		WHERE lists.location_instance_id='".$id."')
+    ORDER BY master_items.item_name ASC";
+
+$result=$conn->query($dropdown);
+while($row=$result->fetch_assoc()) {
+	// echo "<li id=\"".$row["item_instance_id"]."\"><a href=\"#\">".$row["item_name"]."</a></li>";
+	echo "<li><a href=\"#\">".$row["item_name"]."</a></li>";
+}
+
+?>
+
+
+
+
+					          <!-- <li><a href="#">Action</a></li>
+					          <li><a href="#">Another action</a></li>
+					          <li><a href="#">Something else here</a></li>
+					          <li role="separator" class="divider"></li>
+					          <li><a href="#">Separated link</a></li> -->
+					        </ul>
+					      </div><!-- /btn-group -->
+					      <!-- <input type="text" class="form-control" aria-label="..."> -->
+								<input type="text" class="form-control" id="searchItem" placeholder="Search">
+					    </div><!-- /input-group -->
+
+
+
+
+
+
+
+
+
+
+					<!-- <div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Add <span class="caret"></span></button>
+					  	<ul class="dropdown-menu" aria-labelledby="dropdown"> -->
+
+<!-- <?php
 
 // items user can add to list and hasn't already done so
-$dropdown = "SELECT item_instances.item_instance_id, item_instances.item_id,
-	item_instances.location_id, item_instances.sort_order,
-	master_items.item_name, location_instances.location_instance_id
+$dropdown = "SELECT item_instances.item_instance_id, item_instances.item_id, item_instances.location_id, item_instances.sort_order, master_items.item_name, location_instances.location_instance_id
 	FROM item_instances
 	INNER JOIN master_items ON item_instances.item_id=master_items.item_id
 	INNER JOIN master_locations ON item_instances.location_id=master_locations.location_id
@@ -76,26 +148,24 @@ while($row=$result->fetch_assoc()) {
 	echo "<li id=\"".$row["item_instance_id"]."\"><a href=\"#\">".$row["item_name"]."</a></li>";
 }
 
-?>
+?> -->
 
-
-					        </ul>
-					      </div><!-- /btn-group -->
-					      <!-- <input type="text" class="form-control" aria-label="..."> -->
-								<input type="text" class="form-control " id="searchItem" placeholder="Search">
-					    </div><!-- /input-group -->
-						</div>
+				  		<!-- </ul>
+				  	</div>
+		  		</div> -->
+ 		  		<!-- <div class="row">
+		  			<div class="col-md-12">
+		  				<span class="glyphicon pull-right" id="showHideButton"></span><span class="pull-right" id="showHideText"></span>
+		  			</div>
+		  		</div> -->
 			</form>
-
 
 			<ul class="list-group" id="myList">
 
 <?php
 
 // items user has added to list
-$getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty,
-	master_locations.location_name, master_items.item_name,
-	item_instances.sort_order, lists.checked_status, lists.qty
+$getList = "SELECT lists.location_instance_id, lists.item_instance_id, lists.qty, master_locations.location_name, master_items.item_name, item_instances.sort_order, lists.checked_status, lists.qty
 	FROM lists
 	INNER JOIN location_instances ON lists.location_instance_id=location_instances.location_instance_id
 	INNER JOIN master_locations ON location_instances.location_id=master_locations.location_id
@@ -126,60 +196,65 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-		$("#searchItem:input").addClear();
-		$("#searchItem").focus();
-		// manually typed
-		$("#searchForm").submit(function(event) {
-			var item_name = $("#searchItem").val();
-			AddListItemByName("<?php echo $id; ?>", item_name);
-			event.preventDefault();
-		})
-		// selected from dropdown
-		$("#searchItem").autocomplete({
-	    source: 'post/search.php?id=' + "<?php echo $id; ?>",
+		$( "#skills" ).autocomplete({
+	    source: 'search.php',
 	    select: function(event, ui) {
-				AddListItem(ui.item.id);
-				event.preventDefault();
+	      $('#label').append(ui.item.label);
+	      $('#id').append(ui.item.id);
 	    }
 	  });
+		if("<?php echo $menu_hide; ?>" == '0') {
+			// show
+			$("#showHideButton").addClass("glyphicon-menu-up");
+			$("#showHideTarget").show();
+			$("#showHideText").text();
+		} else {
+			// hide
+			$("#showHideButton").addClass("glyphicon-menu-down");
+			$("#showHideTarget").hide();
+			// var title = $($('#title').contents()[0]).text();
+			var title = $("#title").text();
+			$("#showHideText").text(title);
+		}
 		$(".dropdown li").click( function() {
 		    var id = $(this).attr("id");
 		    AddListItem(id);
 		})
-		function AddListItemByName(location_instance_id, item_name) {
+ 		function AddListItem(item_instance_id) {
 			$.ajax({
 				type: "POST",
-				url: "post/addlistitembyname.php",
-				data: {location_instance_id: "<?php echo $id ?>", item_name: item_name},
+				url: "../post/addlistitem.php",
+				data: {location_instance_id: "<?php echo $id ?>", item_instance_id: item_instance_id},
 				cache: false,
 				success: function(response) {
 					if(response==1) {
 						window.location.reload(true);
-					// } else if(response==2) {
-					// 	if(confirm("This item doesn't exist.  Would you like to add it?")) {
-					// 		alert("Add item");
-					// 	}
-					// 	$("#searchItem:input").val('');
 					} else {
 						alert(response);
 					}
 				}
 			})
 		}
- 		function AddListItem(item_instance_id) {
+		$("#showHideButton").click(function() {
+			if($("#showHideButton").hasClass("glyphicon-menu-down")) {
+				$("#showHideButton").removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
+				$("#showHideTarget").show();
+				MenuHide(0);
+			} else {
+				$("#showHideButton").removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
+				$("#showHideTarget").hide();
+				MenuHide(1);
+			}
+		})
+		function MenuHide(bool) {
 			$.ajax({
 				type: "POST",
-				url: "post/addlistitem.php",
-				data: {location_instance_id: "<?php echo $id ?>", item_instance_id: item_instance_id},
+				url: "../post/showhidejumbotron.php",
+				data: {location_instance_id: "<?php echo $id; ?>", menu_hide: bool},
 				cache: false,
 				success: function(response) {
 					if(response==1) {
-						window.location.reload(true);
-					// } else if(response==2) {
-					// 	if(confirm("This item doesn't exist.  Would you like to add it?")) {
-					// 		alert("Add item");
-					// 	}
-					// 	$("#searchItem:input").val('');
+						window.location.reload(false);
 					} else {
 						alert(response);
 					}
@@ -223,7 +298,7 @@ while($row=$result->fetch_assoc()) {
 		function UpdateQty(item_instance_id, qty) {
 			$.ajax({
 				type: "POST",
-				url: "post/updateqty.php",
+				url: "../post/updateqty.php",
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, qty: qty},
 				cache: false,
 				success: function(response) {
@@ -258,7 +333,7 @@ while($row=$result->fetch_assoc()) {
 		function UpdateRecord(item_instance_id, status, refresh) {
 			$.ajax({
 				type: "POST",
-				url: "post/updatehidden.php",
+				url: "../post/updatehidden.php",
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id, status: status},
 				cache: false,
 				success: function(response) {
@@ -277,7 +352,7 @@ while($row=$result->fetch_assoc()) {
 		function DeleteLocationRecord(item_instance_id) {
 			$.ajax({
 				type: "POST",
-				url: "post/deletelistitem.php",
+				url: "../post/deletelistitem.php",
 				data: {location_instance_id: "<?php echo $id; ?>", item_instance_id: item_instance_id},
 				cache: false,
 				success: function(response) {
