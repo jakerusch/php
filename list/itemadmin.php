@@ -52,7 +52,7 @@ while($row=$result->fetch_assoc()) {
 				cache: false,
 				success: function(response) {
 					if(response==1) {
-						window.location.reload(true);	
+						window.location.reload(true);
 					} else {
 						alert(response);
 					}
@@ -67,11 +67,52 @@ while($row=$result->fetch_assoc()) {
 			var myID = $(this).closest("li").attr("id");
 			var myTitle = $(this).closest("li").text();
 			if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-				if(confirm('This will delete all instances of '+myTitle+' and cannot be undone.  Are you sure you want to proceed?')) {				
+				if(confirm('This will delete all instances of '+myTitle+' and cannot be undone.  Are you sure you want to proceed?')) {
 					DeleteItemRecord(myID.replace("item-", ""));
 				}
 			}
 		})
+		// test
+		var mylatesttap;
+		$("#items li").click(function() {
+			var now = new Date().getTime();
+			var timesince = now - mylatesttap;
+			if((timesince<600) && (timesince>0)) {
+				var item_id = $(this).attr('id');
+				var currentName = $(this).text();
+				var item_name = prompt("Existing name", currentName);
+		    if (item_name!=null) {
+					if(confirm("Do you want to change " + currentName + " to " + item_name + "?")) {
+							UpdateName(item_id, item_name);
+					}
+		    }
+				// if(confirm("Do you want to set the quantity to "+qty+"?")) {
+				// 	// set value
+				// 	$(this).find("span.qty").text(UpdateQty(id, qty));
+				// 	// add x if not found
+				// 	if($(this).find("span.multiplier").text()=="") {
+				// 		$(this).find("span.multiplier").text(" x ");
+				// 	}
+				// }
+		   	}
+		   	mylatesttap = new Date().getTime();
+		})
+		function UpdateName(item_id, item_name) {
+			$.ajax({
+				type: "POST",
+				url: "post/updatename.php",
+				data: {item_id: item_id, item_name: item_name},
+				cache: false,
+				success: function(response) {
+					if(response==1) {
+						window.location.reload(true);
+					} else {
+						alert(response);
+					}
+				}
+			})
+		}
+		// test end
 		function DeleteItemRecord(id) {
 			$.ajax({
 				type: "POST",
