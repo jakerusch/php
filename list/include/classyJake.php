@@ -10,13 +10,13 @@ class classyJake {
 
 	public function __construct() {
 		// easy check for test vs prod
-		$this->prod=false;
+		$this->prod=true;
 		$this->createConn();
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {
 			// allow json request
 			if(isset($_GET['token']) && !empty($_GET['token']) && strcmp($_GET['token'], '123456')==0) {
-				
+
 			} else {
 				// if not login page or logincheck script, redirect to login page
 				if($_SERVER['REQUEST_URI']!=="/list/login.php" &&
