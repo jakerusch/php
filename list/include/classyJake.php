@@ -10,18 +10,23 @@ class classyJake {
 
 	public function __construct() {
 		// easy check for test vs prod
-		$this->prod=true;
+		$this->prod=false;
 		$this->createConn();
 		// check for user session
 		if(!isset($_SESSION['user_id'])) {
-			// if not login page or logincheck script, redirect to login page
-			if($_SERVER['REQUEST_URI']!=="/list/login.php" &&
-				$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" &&
-				$_SERVER['REQUEST_URI']!=="/list/logout.php") {
-				if($this->prod==true) {
-					header("Location:http://php-nwcc.rhcloud.com/list/login.php");
-				} else {
-					header("Location:http://localhost/list/login.php");
+			// allow json request
+			if(isset($_GET['token']) && !empty($_GET['token']) && strcmp($_GET['token'], '123456')==0) {
+				
+			} else {
+				// if not login page or logincheck script, redirect to login page
+				if($_SERVER['REQUEST_URI']!=="/list/login.php" &&
+					$_SERVER['REQUEST_URI']!=="/list/post/logincheck.php" &&
+					$_SERVER['REQUEST_URI']!=="/list/logout.php") {
+					if($this->prod==true) {
+						header("Location:http://php-nwcc.rhcloud.com/list/login.php");
+					} else {
+						header("Location:http://localhost/list/login.php");
+					}
 				}
 			}
 		}
@@ -42,7 +47,7 @@ class classyJake {
 	private function navigation() {
 		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php" && $_SERVER['REQUEST_URI']!=="/list/logout.php") {
 			// $navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
-			$navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php");
+			$navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Recipes" => "recipesadmin.php");
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
       				<a class=\"navbar-brand\" href=\"listadmin.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
@@ -119,6 +124,8 @@ echo ucwords($this->title);
 	<!-- jquery bootstrap add clear -->
 		<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.js"></script>
 		<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.min.js"></script>
+	<!-- bootbox -->
+		<script src="js/bootbox.min.js"></script>
 	<!-- icons -->
 		<link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
 		<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
