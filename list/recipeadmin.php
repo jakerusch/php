@@ -49,7 +49,6 @@ while($row=$result->fetch_assoc()) {
 		// add new list
 		$("#importNewRecipe").submit(function(event) {
       // prevent callback
-      // $(this).find(':submit').attr('disabled','disabled');
       $('#importRecipe').prop('disabled', true);
 			event.preventDefault();
 			var url = $("#recipeURL").val();
@@ -66,8 +65,7 @@ while($row=$result->fetch_assoc()) {
 				cache: false,
 				success: function(response) {
           if(response==1) {
-            alert(response);
-            // window.location.reload(true);
+            window.location.reload(true);
           } else {
             alert(response);
           }
