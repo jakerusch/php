@@ -20,8 +20,6 @@ $doc = new DOMDocument();
 @$doc->loadHTMLFile($url);
 $xpath = new DOMXpath($doc);
 
-echo $doc;
-
 $sql = "SELECT COUNT(1) FROM master_recipes
   WHERE master_recipes.recipe_id='$uid'
   LIMIT 1";
