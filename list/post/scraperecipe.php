@@ -20,6 +20,8 @@ $doc = new DOMDocument();
 @$doc->loadHTMLFile($url);
 $xpath = new DOMXpath($doc);
 
+echo $doc;
+
 $sql = "SELECT COUNT(1) FROM master_recipes
   WHERE master_recipes.recipe_id='$uid'
   LIMIT 1";
@@ -38,15 +40,16 @@ if($count!=0) {
     foreach($elements as $element) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
+        echo 'title node='.$node->nodeValue;
         // insert title
         $sql = "INSERT INTO master_recipes(recipe_id, user_id, recipe_name, recipe_location) VALUES('".$uid."','".$sid."','".mysql_real_escape_string($node->nodeValue)."','".mysql_real_escape_string($url)."')";
         // get auto-increment item_id from master_items
-        if ($conn->query($sql) === TRUE) {
-            $unique_id=$conn->insert_id;
-        } else {
-            $success="";
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        // if ($conn->query($sql) === TRUE) {
+        //     $unique_id=$conn->insert_id;
+        // } else {
+        //     $success="";
+        //     echo "Error: " . $sql . "<br>" . $conn->error;
+        // }
       }
     }
   }
@@ -58,14 +61,15 @@ if($count!=0) {
     foreach($elements as $element) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
+        echo 'ingredients node='.$node->nodeValue;
         // insert ingredients
         $sql = "INSERT INTO recipe_ingredients(unique_id, ingredient_order, ingredient_text) VALUES('".$unique_id."','".$count."','".mysql_real_escape_string($node->nodeValue)."')";
         $count=$count+1;
-        if ($conn->query($sql) === TRUE) {
-        } else {
-          $success="";
-          echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        // if ($conn->query($sql) === TRUE) {
+        // } else {
+        //   $success="";
+        //   echo "Error: " . $sql . "<br>" . $conn->error;
+        // }
       }
     }
   }
@@ -77,14 +81,15 @@ if($count!=0) {
     foreach($elements as $element) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
+        echo 'recipe node='.$node->nodeValue;
         // insert directions
         $sql = "INSERT INTO recipe_directions(unique_id, directions_order, directions_text) VALUES('".$unique_id."','".$count."','".mysql_real_escape_string($node->nodeValue)."')";
         $count=$count+1;
-        if ($conn->query($sql) === TRUE) {
-        } else {
-          $success="";
-          echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        // if ($conn->query($sql) === TRUE) {
+        // } else {
+        //   $success="";
+        //   echo "Error: " . $sql . "<br>" . $conn->error;
+        // }
       }
     }
   }

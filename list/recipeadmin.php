@@ -66,7 +66,8 @@ while($row=$result->fetch_assoc()) {
 				cache: false,
 				success: function(response) {
           if(response==1) {
-            window.location.reload(true);
+            alert(response);
+            // window.location.reload(true);
           } else {
             alert(response);
           }
