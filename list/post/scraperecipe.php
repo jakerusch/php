@@ -39,7 +39,7 @@ if($count!=0) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
         // insert title
-        $sql = "INSERT INTO master_recipes(recipe_id, user_id, recipe_name, recipe_location) VALUES('".$uid."','".$sid."','".$node->nodeValue."','".$url."')";
+        $sql = "INSERT INTO master_recipes(recipe_id, user_id, recipe_name, recipe_location) VALUES('".$uid."','".$sid."','".mysqli_real_escape_string($conn, $node->nodeValue)."','".mysqli_real_escape_string($conn, $url)."')";
         // get auto-increment item_id from master_items
         if ($conn->query($sql) === TRUE) {
             $unique_id=$conn->insert_id;
@@ -59,7 +59,7 @@ if($count!=0) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
         // insert ingredients
-        $sql = "INSERT INTO recipe_ingredients(unique_id, ingredient_order, ingredient_text) VALUES('".$unique_id."','".$count."','".$node->nodeValue."')";
+        $sql = "INSERT INTO recipe_ingredients(unique_id, ingredient_order, ingredient_text) VALUES('".$unique_id."','".$count."','".mysqli_real_escape_string($conn, $node->nodeValue)."')";
         $count=$count+1;
         if ($conn->query($sql) === TRUE) {
         } else {
@@ -78,7 +78,7 @@ if($count!=0) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
         // insert directions
-        $sql = "INSERT INTO recipe_directions(unique_id, directions_order, directions_text) VALUES('".$unique_id."','".$count."','".$node->nodeValue."')";
+        $sql = "INSERT INTO recipe_directions(unique_id, directions_order, directions_text) VALUES('".$unique_id."','".$count."','".mysqli_real_escape_string($conn, $node->nodeValue)."')";
         $count=$count+1;
         if ($conn->query($sql) === TRUE) {
         } else {
