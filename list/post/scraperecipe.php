@@ -38,7 +38,6 @@ if($count!=0) {
     foreach($elements as $element) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
-        echo 'title node='.$node->nodeValue;
         // insert title
         $sql = "INSERT INTO master_recipes(recipe_id, user_id, recipe_name, recipe_location) VALUES('".$uid."','".$sid."','".$node->nodeValue."','".$url."')";
         // get auto-increment item_id from master_items
@@ -59,7 +58,6 @@ if($count!=0) {
     foreach($elements as $element) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
-        echo 'ingredients node='.$node->nodeValue;
         // insert ingredients
         $sql = "INSERT INTO recipe_ingredients(unique_id, ingredient_order, ingredient_text) VALUES('".$unique_id."','".$count."','".$node->nodeValue."')";
         $count=$count+1;
@@ -79,7 +77,6 @@ if($count!=0) {
     foreach($elements as $element) {
       $nodes = $element->childNodes;
       foreach($nodes as $node) {
-        echo 'recipe node='.$node->nodeValue;
         // insert directions
         $sql = "INSERT INTO recipe_directions(unique_id, directions_order, directions_text) VALUES('".$unique_id."','".$count."','".$node->nodeValue."')";
         $count=$count+1;
