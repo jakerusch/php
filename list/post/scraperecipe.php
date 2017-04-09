@@ -12,6 +12,9 @@ $uid=str_replace('/', '', $uid);
 // reconstruct url
 $url='http://allrecipes.com/recipe/'.$uid;
 
+$user_agent = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11";
+ini_set('user_agent', $user_agent);
+
 //start scrape process
 $doc = new DOMDocument();
 @$doc->loadHTMLFile($url);
@@ -85,6 +88,6 @@ if($count!=0) {
       }
     }
   }
+  echo $success;
 }
-echo $success;
 ?>
