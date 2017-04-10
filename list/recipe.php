@@ -18,7 +18,7 @@ $sql="SELECT master_recipes.recipe_name, master_recipes.unique_id
   LIMIT 1";
 $result=$conn->query($sql);
 while($row=$result->fetch_assoc()) {
-  echo '<li class="list-group-item" id="'.$row['unique_id'].'">'.$row['recipe_name'].'</li>';
+  echo '<li class="list-group-item" id="'.$row['unique_id'].'" sort_order="0">'.$row['recipe_name'].'</li>';
 }
 
 echo '</ul>';
