@@ -3,7 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/list/include/classyJake.php");
 $obj = new classyJake();
 $conn = $obj->getConn();
 $location_instance_id=$_POST['location_instance_id'];
-$item_name=$_POST['item_name'];
+$item_name=mysqli_real_escape_string($conn, $_POST['item_name']);
 
 // check if item exists in master items
 $sql="SELECT COUNT(*) FROM master_items
@@ -17,7 +17,8 @@ if($count==0) {
   // add to master_items, then item_instances, then list
 
   // add to master items
-  $sql1="INSERT INTO master_items(user_id, item_name) VALUES('1', '$item_name')";
+  $sql1="INSERT INTO master_items(user_id, item_name)
+    VALUES('1', '$item_name')";
   $result1=$conn->query($sql1);
 
   // get auto-increment item_id from master_items
@@ -40,12 +41,14 @@ if($count==0) {
   $location_id=$row3['location_id'];
 
   // add item into item_instances table
-  $sql4="INSERT INTO item_instances(item_id, location_id, sort_order) VALUES('$item_id', '$location_id', '$sort_order')";
+  $sql4="INSERT INTO item_instances(item_id, location_id, sort_order)
+    VALUES('$item_id', '$location_id', '$sort_order')";
   $result4=$conn->query($sql4);
   $item_instance_id=$conn->insert_id;
 
   // add item to list
-  $sql5="INSERT INTO lists(location_instance_id, item_instance_id, qty, checked_status) VALUES('$location_instance_id', '$item_instance_id', '1', '0')";
+  $sql5="INSERT INTO lists(location_instance_id, item_instance_id, qty, checked_status)
+    VALUES('$location_instance_id', '$item_instance_id', '1', '0')";
 
   // check for final successful insert
   if($conn->query($sql5)===TRUE) {
@@ -94,12 +97,14 @@ if($count==0) {
     $location_id=$row3['location_id'];
 
     // add item into item_instances table
-    $sql4="INSERT INTO item_instances(item_id, location_id, sort_order) VALUES('$item_id', '$location_id', '$sort_order')";
+    $sql4="INSERT INTO item_instances(item_id, location_id, sort_order)
+      VALUES('$item_id', '$location_id', '$sort_order')";
     $result4=$conn->query($sql4);
     $item_instance_id=$conn->insert_id;
 
     // add item to list
-    $sql5="INSERT INTO lists(location_instance_id, item_instance_id, qty, checked_status) VALUES('".$location_instance_id."', '".$item_instance_id."', '1', '0')";
+    $sql5="INSERT INTO lists(location_instance_id, item_instance_id, qty, checked_status)
+      VALUES('$location_instance_id', '$item_instance_id', '1', '0')";
     // if both were successfully inserted
     if($conn->query($sql5)===TRUE) {
       echo 1;
@@ -134,13 +139,14 @@ if($count==0) {
       INNER JOIN item_instances ON item_instances.item_instance_id=lists.item_instance_id
       WHERE item_instances.location_id='$location_id'
       AND item_instances.item_instance_id='$item_instance_id'";
-      $result2=$conn->query($sql2);
-      $row2=mysqli_fetch_row($result2);
-      $count=$row2[0];
+    $result2=$conn->query($sql2);
+    $row2=mysqli_fetch_row($result2);
+    $count=$row2[0];
 
     if($count==0) {
       // add item to list
-      $sql5="INSERT INTO lists(location_instance_id, item_instance_id, qty, checked_status) VALUES('".$location_instance_id."', '".$item_instance_id."', '1', '0')";
+      $sql5="INSERT INTO lists(location_instance_id, item_instance_id, qty, checked_status)
+        VALUES('$location_instance_id', '$item_instance_id', '1', '0')";
       // if both were successfully inserted
       if($conn->query($sql5)===TRUE) {
         echo 1;

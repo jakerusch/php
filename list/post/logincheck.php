@@ -7,7 +7,9 @@ $email=mysqli_real_escape_string($conn, $_POST['email']);
 $password=mysqli_real_escape_string($conn, $_POST['password']);
 $hash=password_hash($password, PASSWORD_DEFAULT);
 
-$sql="SELECT user_email, user_password, user_id FROM users WHERE users.user_email='".$email."'";
+$sql="SELECT user_email, user_password, user_id
+	FROM users
+	WHERE users.user_email='$email'";
 
 $result=$conn->query($sql);
 
