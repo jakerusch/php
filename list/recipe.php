@@ -11,14 +11,16 @@ echo'<div class="well">';
 echo '<ul class="list-group" id="title">';
 
 // get title
-$sql="SELECT master_recipes.recipe_name, master_recipes.unique_id
+$sql="SELECT master_recipes.recipe_name, master_recipes.unique_id, master_recipes.recipe_location
   FROM master_recipes
   WHERE master_recipes.unique_id='$id'
   AND master_recipes.user_id='$sid'
   LIMIT 1";
 $result=$conn->query($sql);
+$url="";
 while($row=$result->fetch_assoc()) {
   echo '<li class="list-group-item" id="'.$row['unique_id'].'" sort_order="0">'.$row['recipe_name'].'</li>';
+  $url=$row['recipe_location'];
 }
 
 echo '</ul>';
@@ -46,6 +48,7 @@ while($row3=$result3->fetch_assoc()) {
 }
 
 echo '</ul>';
+echo '<a href="'.$url.'" target="_blank"><ul class="list-group"><li class="list-group-item">Source Link</li></ul></a>';
 echo '</div>';
 ?>
 
