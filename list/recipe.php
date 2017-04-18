@@ -32,7 +32,7 @@ $sql2="SELECT recipe_ingredients.ingredient_text, recipe_ingredients.unique_id, 
   ORDER BY recipe_ingredients.ingredient_order ASC";
 $result2=$conn->query($sql2);
 while($row2=$result2->fetch_assoc()) {
-  echo '<li class="list-group-item" id="'.$row2['unique_id'].'" sort_order="'.$row2['ingredient_order'].'">'.$row2['ingredient_text'].'</li>';
+  echo '<li class="list-group-item" id="'.$row2['unique_id'].'" sort_order="'.$row2['ingredient_order'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row2['ingredient_text'].'</li>';
 }
 
 echo '</ul>';
@@ -44,33 +44,18 @@ $sql3="SELECT recipe_directions.directions_text, recipe_directions.unique_id, re
   ORDER BY recipe_directions.directions_order ASC";
 $result3=$conn->query($sql3);
 while($row3=$result3->fetch_assoc()) {
-  echo '<li class="list-group-item" id="'.$row3['unique_id'].'" sort_order="'.$row3['directions_order'].'">'.$row3['directions_text'].'</li>';
+  echo '<li class="list-group-item" id="'.$row3['unique_id'].'" sort_order="'.$row3['directions_order'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row3['directions_text'].'</li>';
 }
-
-echo '</ul>';
-echo '<a href="'.$url.'" target="_blank"><ul class="list-group"><li class="list-group-item">Source Link</li></ul></a>';
+if(!empty($url)) {
+  echo '</ul>';
+  echo '<a href="'.$url.'" target="_blank"><ul class="list-group"><li class="list-group-item">Source Link</li></ul></a>';
+}
 echo '</div>';
 ?>
 
 
 <script>
 $(function() {
-  // // add new record function
-  // function AddItem(val) {
-  //   $.ajax({
-  //     type: "POST",
-  //     url: "post/addnewitemmaster.php",
-  //     data: {item_name: val},
-  //     cache: false,
-  //     success: function(response) {
-  //       if(response==1) {
-  //         window.location.reload(true);
-  //       } else {
-  //         alert(response);
-  //       }
-  //     }
-  //   });
-  // }
   // delete item
   $("span.glyphicon-trash").click(function(event) {
     // fixes conflict with li.list-group-item click function
@@ -84,6 +69,14 @@ $(function() {
       }
     }
   })
+  // taphold
+  $("html").on("taphold", function() {
+    if($('.glyphicon-menu-hamburger').hasClass('hidden')) {
+      $('.glyphicon-menu-hamburger').removeClass('hidden');
+    } else {
+      $('.glyphicon-menu-hamburger').addClass('hidden');
+    }
+  });
   // double-click
   var mylatesttap;
   $("#ingredients li,#directions li,#title li").click(function() {
