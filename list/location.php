@@ -27,7 +27,7 @@ $row = $result->fetch_assoc();
 				<div class="form-group">
 					<div class="text-center">
 
-<?php 
+<?php
 	echo "<h3>".$row["location_name"]."</h3>";
 ?>
 
@@ -40,7 +40,7 @@ $row = $result->fetch_assoc();
 
 $dropdown = "SELECT master_items.item_name, master_items.item_id
 	FROM master_items
-	WHERE master_items.user_id='".$sid."' AND master_items.item_id NOT IN 
+	WHERE master_items.user_id='".$sid."' AND master_items.item_id NOT IN
 		(SELECT master_items.item_id
 			FROM master_items
 			LEFT JOIN item_instances ON master_items.item_id=item_instances.item_id
@@ -49,8 +49,8 @@ $dropdown = "SELECT master_items.item_name, master_items.item_id
 
 $result2=$conn->query($dropdown);
 while($row2=$result2->fetch_assoc()) {
-	echo "<li id=\"".$row2["item_id"]."\"><a href=\"#\">".$row2["item_name"]."</a></li>";	
-}	
+	echo "<li id=\"".$row2["item_id"]."\"><a href=\"#\">".$row2["item_name"]."</a></li>";
+}
 
 ?>
 
@@ -99,8 +99,8 @@ while($row3=$result3->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}		
-		// sortable 
+		}
+		// sortable
 		$("#sortable").sortable({
 			handle: "span.glyphicon-menu-hamburger",
 			stop: function(event, ui) {
@@ -135,7 +135,7 @@ while($row3=$result3->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}		 	
+		}
 	});
 	</script>
 	</body>

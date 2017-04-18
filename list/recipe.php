@@ -24,27 +24,29 @@ while($row=$result->fetch_assoc()) {
 }
 
 echo '</ul>';
+echo '<div class="list-group hidden hide_button"><button type="submit" class="btn btn-default" id="addIngredient"><span class="glyphicon glyphicon-plus"></span> Add New Ingredient</button></div>';
 echo '<ul class="list-group" id="ingredients">';
 
-$sql2="SELECT recipe_ingredients.ingredient_text, recipe_ingredients.unique_id, recipe_ingredients.ingredient_order
+$sql2="SELECT recipe_ingredients.ingredient_text, recipe_ingredients.unique_id, recipe_ingredients.ingredient_order, recipe_ingredients.item_id
   FROM recipe_ingredients
   WHERE recipe_ingredients.unique_id='$id'
   ORDER BY recipe_ingredients.ingredient_order ASC";
 $result2=$conn->query($sql2);
 while($row2=$result2->fetch_assoc()) {
-  echo '<li class="list-group-item" id="'.$row2['unique_id'].'" sort_order="'.$row2['ingredient_order'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row2['ingredient_text'].'</li>';
+  echo '<li class="list-group-item" id="item-'.$row2['item_id'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row2['ingredient_text'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span></li>';
 }
 
 echo '</ul>';
+echo '<div class="list-group hidden hide_button"><button type="submit" class="btn btn-default" id="addDirection"><span class="glyphicon glyphicon-plus"></span> Add New Direction</button></div>';
 echo '<ul class="list-group" id="directions">';
 
-$sql3="SELECT recipe_directions.directions_text, recipe_directions.unique_id, recipe_directions.directions_order
+$sql3="SELECT recipe_directions.directions_text, recipe_directions.unique_id, recipe_directions.directions_order, recipe_directions.item_id
   FROM recipe_directions
   WHERE recipe_directions.unique_id='$id'
   ORDER BY recipe_directions.directions_order ASC";
 $result3=$conn->query($sql3);
 while($row3=$result3->fetch_assoc()) {
-  echo '<li class="list-group-item" id="'.$row3['unique_id'].'" sort_order="'.$row3['directions_order'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row3['directions_text'].'</li>';
+  echo '<li class="list-group-item" id="item-'.$row3['item_id'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row3['directions_text'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span></li>';
 }
 if(!empty($url)) {
   echo '</ul>';
@@ -57,7 +59,7 @@ echo '</div>';
 <script>
 $(function() {
   // delete item
-  $("span.glyphicon-trash").click(function(event) {
+  $("#ingredients span.glyphicon-trash").click(function(event) {
     // fixes conflict with li.list-group-item click function
     event.preventDefault();
     event.stopPropagation();
@@ -65,16 +67,146 @@ $(function() {
     var myTitle = $(this).closest("li").text();
     if (confirm('Are you sure you want to delete '+myTitle+'?')) {
       if(confirm('This will delete all instances of '+myTitle+' and cannot be undone.  Are you sure you want to proceed?')) {
-        // DeleteItemRecord(myID.replace("item-", ""));
+        DeleteIngredient(myID.replace("item-", ""));
       }
     }
   })
+  function DeleteIngredient(id) {
+    $.ajax({
+      type: "POST",
+      url: "post/deleterecipeingredient.php",
+      data: {item_id: id},
+      cache: false,
+      success: function(response) {
+        if(response==1) {
+          window.location.reload(true);
+        } else {
+          alert(response);
+        }
+      }
+    })
+  }
+  // delete item
+  $("#directions span.glyphicon-trash").click(function(event) {
+    // fixes conflict with li.list-group-item click function
+    event.preventDefault();
+    event.stopPropagation();
+    var myID = $(this).closest("li").attr("id");
+    var myTitle = $(this).closest("li").text();
+    if (confirm('Are you sure you want to delete '+myTitle+'?')) {
+      if(confirm('This will delete all instances of '+myTitle+' and cannot be undone.  Are you sure you want to proceed?')) {
+        DeleteDirection(myID.replace("item-", ""));
+      }
+    }
+  })
+  function DeleteDirection(id) {
+    $.ajax({
+      type: "POST",
+      url: "post/deleterecipedirection.php",
+      data: {item_id: id},
+      cache: false,
+      success: function(response) {
+        if(response==1) {
+          window.location.reload(true);
+        } else {
+          alert(response);
+        }
+      }
+    })
+  }
+  $('#addIngredient').click(function(event) {
+    event.preventDefault();
+    var title = prompt("Add Ingredient");
+    if (title!=null) {
+      if(confirm("Do you want to add " + title + " to ingredient list?")) {
+        InsertIngredient(title);
+      }
+    }
+  });
+  function InsertIngredient(title) {
+    $.ajax({
+      type: "POST",
+      url: "post/addnewrecipeingredient.php",
+      data: {id: "<?php echo $id; ?>",  title: title},
+      cache: false,
+      success: function(response) {
+        if(response==1) {
+          window.location.reload(true);
+        } else {
+          alert(response);
+        }
+      }
+    })
+  }
+  $('#addDirection').click(function(event) {
+    event.preventDefault();
+    var title = prompt("Add Direction");
+    if (title!=null) {
+      if(confirm("Do you want to add " + title + " to directions list?")) {
+        InsertDirection(title);
+      }
+    }
+  });
+  function InsertDirection(title) {
+    $.ajax({
+      type: "POST",
+      url: "post/addnewrecipedirection.php",
+      data: {id: "<?php echo $id; ?>",  title: title},
+      cache: false,
+      success: function(response) {
+        if(response==1) {
+          window.location.reload(true);
+        } else {
+          alert(response);
+        }
+      }
+    })
+  }
+  // sortable
+  $("#ingredients").sortable({
+    handle: "span.glyphicon-menu-hamburger",
+    stop: function(event, ui) {
+      var data = $(this).sortable("serialize");
+      $.ajax({
+        type: "POST",
+        url: "post/updaterecipeingredientsorder.php",
+        data: data,
+        cache: false,
+        success: function(response) {
+          window.location.reload(false);
+        }
+      });
+    }
+  })
+  // sortable
+  $("#directions").sortable({
+    handle: "span.glyphicon-menu-hamburger",
+    stop: function(event, ui) {
+      var data = $(this).sortable("serialize");
+      $.ajax({
+        type: "POST",
+        url: "post/updaterecipedirectionsorder.php",
+        data: data,
+        cache: false,
+        success: function(response) {
+          window.location.reload(false);
+        }
+      });
+    }
+  })
   // taphold
-  $("html").on("taphold", function() {
-    if($('.glyphicon-menu-hamburger').hasClass('hidden')) {
-      $('.glyphicon-menu-hamburger').removeClass('hidden');
-    } else {
-      $('.glyphicon-menu-hamburger').addClass('hidden');
+  $('html').on('taphold', function(event) {
+    var target = $(event.target);
+    if(target.is(':not(span)')) {
+      if($('.glyphicon-menu-hamburger').hasClass('hidden')) {
+        $('.glyphicon-menu-hamburger').removeClass('hidden');
+        $('.glyphicon-trash').removeClass('hidden');
+        $('.hide_button').removeClass('hidden');
+      } else {
+        $('.glyphicon-menu-hamburger').addClass('hidden');
+        $('.glyphicon-trash').addClass('hidden');
+        $('.hide_button').addClass('hidden');
+      }
     }
   });
   // double-click
@@ -116,22 +248,6 @@ $(function() {
       type: "POST",
       url: "post/updaterecipedirection.php",
       data: {item_id: item_id, item_name: item_name},
-      cache: false,
-      success: function(response) {
-        if(response==1) {
-          window.location.reload(true);
-        } else {
-          alert(response);
-        }
-      }
-    })
-  }
-  // test end
-  function DeleteItemRecord(id) {
-    $.ajax({
-      type: "POST",
-      url: "post/deleteitemmaster.php",
-      data: {item_id: id},
       cache: false,
       success: function(response) {
         if(response==1) {

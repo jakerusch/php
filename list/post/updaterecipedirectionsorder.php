@@ -5,9 +5,9 @@ $conn = $obj->getConn();
 
 $i = 0;
 foreach($_POST['item'] as $value) {
-	$sql = "UPDATE item_instances
-		SET sort_order='$i'
-		WHERE item_instance_id='$value'";
+	$sql = "UPDATE recipe_directions
+		SET recipe_directions.directions_order='$i'
+		WHERE recipe_directions.item_id='$value'";
 
 	if ($conn->query($sql) === TRUE) {
 	    echo "New record created successfully";
