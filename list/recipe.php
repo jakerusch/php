@@ -198,7 +198,7 @@ $(function() {
   $('html').on('taphold', function(event) {
     var target = $(event.target);
     if(target.is(':not(span)')) {
-      if($('.glyphicon-menu-hamburger').hasClass('hidden')) {
+      if($('.hide_button').hasClass('hidden')) {
         $('.glyphicon-menu-hamburger').removeClass('hidden');
         $('.glyphicon-trash').removeClass('hidden');
         $('.hide_button').removeClass('hidden');
