@@ -48,10 +48,9 @@ $result3=$conn->query($sql3);
 while($row3=$result3->fetch_assoc()) {
   echo '<li class="list-group-item" id="item-'.$row3['item_id'].'"><span class="glyphicon glyphicon-menu-hamburger pull-left hidden"></span>'.$row3['directions_text'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span></li>';
 }
-if(!empty($url)) {
-  echo '</ul>';
-  echo '<ul class="list-group" id="hyperlink"><li class="list-group-item" id="item-'.$id.'"><a href="'.$url.'" target="_blank"> '.$url.'</a></li></ul>';
-}
+
+echo '</ul>';
+echo '<ul class="list-group" id="hyperlink"><li class="list-group-item" id="item-'.$id.'"><a href="'.$url.'" target="_blank"> '.$url.'</a></li></ul>';
 echo '</div>';
 ?>
 
