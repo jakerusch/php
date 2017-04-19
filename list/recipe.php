@@ -50,7 +50,7 @@ while($row3=$result3->fetch_assoc()) {
 }
 if(!empty($url)) {
   echo '</ul>';
-  echo '<a href="'.$url.'" target="_blank"><ul class="list-group"><li class="list-group-item">Source Link</li></ul></a>';
+  echo '<ul class="list-group" id="hyperlink"><li class="list-group-item" id="item-'.$id.'"><a href="'.$url.'" target="_blank"> '.$url.'</a></li></ul>';
 }
 echo '</div>';
 ?>
@@ -200,10 +200,12 @@ $(function() {
     if(target.is(':not(span)')) {
       if($('.hide_button').hasClass('hidden')) {
         $('.glyphicon-menu-hamburger').removeClass('hidden');
+        $('.glyphicon-edit').removeClass('hidden');
         $('.glyphicon-trash').removeClass('hidden');
         $('.hide_button').removeClass('hidden');
       } else {
         $('.glyphicon-menu-hamburger').addClass('hidden');
+        $('.glyphicon-edit').addClass('hidden');
         $('.glyphicon-trash').addClass('hidden');
         $('.hide_button').addClass('hidden');
       }
@@ -211,28 +213,28 @@ $(function() {
   });
   // double-click
   var mylatesttap;
-  $("#ingredients li,#directions li,#title li").click(function() {
+  $(".list-group-item").click(function() {
     var now = new Date().getTime();
     var timesince = now - mylatesttap;
     if((timesince<600) && (timesince>0)) {
       var item_id = $(this).attr('id');
       var item_type = $(this).closest('ul').attr('id');
       var currentName = $(this).text();
-      var sort_order = $(this).attr('sort_order');
+      // var sort_order = $(this).attr('sort_order');
       var item_name = prompt("Existing name", currentName);
       if (item_name!=null) {
         if(confirm("Do you want to change " + currentName + " to " + item_name + "?")) {
-          UpdateRecipe(item_type, sort_order, item_id, item_name);
+          UpdateRecipe(item_type, item_id.replace("item-",""), item_name);
         }
       }
      }
      mylatesttap = new Date().getTime();
   })
-  function UpdateRecipe(item_type, sort_order, item_id, item_name) {
+  function UpdateRecipe(item_type, item_id, item_name) {
     $.ajax({
       type: "POST",
       url: "post/updaterecipe.php",
-      data: {item_type: item_type, sort_order: sort_order, item_id: item_id, item_name: item_name},
+      data: {item_type: item_type, item_id: item_id, item_name: item_name},
       cache: false,
       success: function(response) {
         if(response==1) {

@@ -8,12 +8,12 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-      <form class="well" id="test">
+      <form class="well hidden" id="addMenu">
         <button type="submit" class="btn btn-default" id="showImportRecipe">Import</button>
         <button type="submit" class="btn btn-default" id="showAddManually">Add Manually</button>
       </form>
 
-      <form class="well" id="importNewRecipe" style="display:none;">
+      <form class="well hidden" id="importNewRecipe">
           <div class="form-group">
               <label for="recipeURL">Import Recipe from URL</label>
               <input type="text" class="form-control" id="recipeURL" name="recipeURL">
@@ -21,7 +21,7 @@ $sid=$_SESSION['user_id'];
           <button type="submit" class="btn btn-default" id="importRecipe"><span class="glyphicon glyphicon-plus"></span> Add</button>
       </form>
 
-      <form class="well" id="manuallyAddNewRecipe" style="display:none;">
+      <form class="well hidden" id="manuallyAddNewRecipe">
         <div class="form-group">
           <label for="manualName">Manually Add Recipe</label>
           <input type="text" class="form-control" id="manualName" name="manualName">
@@ -54,17 +54,21 @@ while($row=$result->fetch_assoc()) {
     // hide buttons on submit to prevent callback
     $('#showImportRecipe').click(function(event) {
       event.preventDefault();
-      $('#importNewRecipe').css('display','block');
-      $('#manuallyAddNewRecipe').css('display','none');
-      $('#showAddManually').prop('disabled', false);
-      $('#showImportRecipe').prop('disabled', true);
+      if(!$('#showImportRecipe').hasClass('disabled')) {
+        $('#showImportRecipe').addClass('disabled');
+        $('#showAddManually').removeClass('disabled');
+        $('#importNewRecipe').removeClass('hidden');
+        $('#manuallyAddNewRecipe').addClass('hidden');
+      }
     });
     $('#showAddManually').click(function(event) {
       event.preventDefault();
-      $('#importNewRecipe').css('display','none');
-      $('#manuallyAddNewRecipe').css('display','block');
-      $('#showAddManually').prop('disabled', true);
-      $('#showImportRecipe').prop('disabled', false);
+      if(!$('#showAddManually').hasClass('disabled')) {
+        $('#showAddManually').addClass('disabled');
+        $('#showImportRecipe').removeClass('disabled');
+        $('#manuallyAddNewRecipe').removeClass('hidden');
+        $('#importNewRecipe').addClass('hidden');
+      }
     });
 		// set cursor to input box
 		$('#recipeURL').focus();
@@ -74,6 +78,23 @@ while($row=$result->fetch_assoc()) {
 			var title = $(this).text();
 			window.location.href = "recipe.php?id="+id;
 		})
+    // taphold
+    $('html').on('taphold', function(event) {
+      var target = $(event.target);
+      if($('#addMenu').hasClass('hidden')) {
+        $('#addMenu').removeClass('hidden');
+        $('#manuallyAddNewRecipe').addClass('hidden');
+        $('#importNewRecipe').addClass('hidden');
+        $('#showImportRecipe').removeClass('disabled');
+        $('#showAddManually').removeClass('disabled');
+      } else {
+        $('#addMenu').addClass('hidden');
+        $('#manuallyAddNewRecipe').addClass('hidden');
+        $('#importNewRecipe').addClass('hidden');
+        $('#showImportRecipe').removeClass('disabled');
+        $('#showAddManually').removeClass('disabled');
+      }
+    });
 		// add new list
 		$("#importNewRecipe").submit(function(event) {
       // prevent callback
