@@ -59,6 +59,8 @@ while($row=$result->fetch_assoc()) {
         $('#showAddManually').removeClass('disabled');
         $('#importNewRecipe').removeClass('hidden');
         $('#manuallyAddNewRecipe').addClass('hidden');
+        // set cursor to input box
+        $('#recipeURL').focus();
       }
     });
     $('#showAddManually').click(function(event) {
@@ -68,10 +70,10 @@ while($row=$result->fetch_assoc()) {
         $('#showImportRecipe').removeClass('disabled');
         $('#manuallyAddNewRecipe').removeClass('hidden');
         $('#importNewRecipe').addClass('hidden');
+        // set cursor to input box
+        $('#manualName').focus();
       }
     });
-		// set cursor to input box
-		$('#recipeURL').focus();
     // direct to location.php when li is clicked
 		$("li.list-group-item").click(function(event) {
 			var id = $(this).attr("id");

@@ -220,7 +220,7 @@ $(function() {
       var item_type = $(this).closest('ul').attr('id');
       var currentName = $(this).text();
       // var sort_order = $(this).attr('sort_order');
-      var item_name = prompt("Existing name", currentName);
+      var item_name = prompt("Existing text", currentName);
       if (item_name!=null) {
         if(confirm("Do you want to change " + currentName + " to " + item_name + "?")) {
           UpdateRecipe(item_type, item_id.replace("item-",""), item_name);
