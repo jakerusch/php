@@ -32,7 +32,7 @@ $menu_hide=$row['menu_hide'];
 
 ?>
 
-			<form id="searchForm" class="well">
+			<form class="well" id="searchForm" >
 				<div class="form-group" id="showHideTarget">
 					<div class="text-center">
 

@@ -8,9 +8,9 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-			<form class="well" id="addNewItem">
+			<form class="well hidden" id="addNewItem">
 				<div class="form-group">
-					<label for="itemName">Add New Master Item</label>
+					<label for="itemName">Add New Item</label>
 					<input type="text" class="form-control" id="itemName" name="itemName" placeholder="Item Name">
 				</div>
 				<button type="submit" class="btn btn-default" id="addItem"><span class="glyphicon glyphicon-plus"></span> Add</button>
@@ -33,8 +33,17 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-		// set focus on input box
-		$('#itemName').focus();
+		// taphold
+    $('html').on('taphold', function(event) {
+      var target = $(event.target);
+      if($('#addNewItem').hasClass('hidden')) {
+        $('#addNewItem').removeClass('hidden');
+				// set focus on input box
+				$('#itemName').focus();
+      } else {
+        $('#addNewItem').addClass('hidden');
+      }
+    });
 		// add new list
 		$("#addNewItem").submit(function(event) {
 			event.preventDefault();

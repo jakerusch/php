@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-			<form class="well">
+			<form class="well hidden" id="addMenu">
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Create New List <span class="caret"></span></button>
@@ -56,12 +56,12 @@ while($row=$result->fetch_assoc()) {
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
 		    AddList(id);
-		});		
+		});
 		$("li.list-group-item").click(function(event) {
 			var id = $(this).attr("id");
 			var title = $(this).text();
 			window.location.href = "list.php?id="+id;
-		})		
+		})
 		function AddList(location_id) {
 			jQuery.ajax({
 				type: "POST",
@@ -73,6 +73,15 @@ while($row=$result->fetch_assoc()) {
 				}
 			})
 		}
+		// taphold
+    $('html').on('taphold', function(event) {
+      var target = $(event.target);
+      if($('#addMenu').hasClass('hidden')) {
+        $('#addMenu').removeClass('hidden');
+      } else {
+        $('#addMenu').addClass('hidden');
+      }
+    });
 		// delete item
 		$("span.glyphicon-trash").click(function(event) {
 			// fixes conflict with li.list-group-item click function
@@ -82,7 +91,7 @@ while($row=$result->fetch_assoc()) {
 			var myTitle = $(this).closest("li").text();
 			if (confirm('Are you sure you want to delete '+myTitle+'?')) {
 				DeleteListLocation(myID);
-			}			
+			}
 		})
 		function DeleteListLocation(location_instance_id) {
 			$.ajax({
@@ -94,7 +103,7 @@ while($row=$result->fetch_assoc()) {
 					window.location.reload(true);
 				}
 			})
-		}		
+		}
 		});
 	</script>
 	</body>
