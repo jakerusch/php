@@ -48,7 +48,7 @@ class classyJake {
 		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php" && $_SERVER['REQUEST_URI']!=="/list/logout.php") {
 			// $navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
 			// $navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Recipes" => "recipesadmin.php");
-			$navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Recipes" => "recipeadmin.php");
+			$navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Meals" => "meals.php", "Recipes" => "recipeadmin.php");
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
       				<a class=\"navbar-brand\" href=\"listadmin.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
@@ -128,6 +128,8 @@ echo ucwords($this->title);
 		<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.min.js"></script>
 	<!-- bootbox -->
 		<script src="js/bootbox.min.js"></script>
+	<!-- moment.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
 	<!-- icons -->
 		<link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
 		<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
