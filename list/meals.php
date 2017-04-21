@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-			<form class="well hidden" id="addMenu">
+			<form class="well hidden" id="addMeal">
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Create New List <span class="caret"></span></button>
@@ -23,7 +23,7 @@ $sql = "SELECT master_recipes.recipe_name, master_recipes.unique_id
   ORDER BY master_recipes.recipe_name ASC";
 $result=$conn->query($sql);
 while($row=$result->fetch_assoc()) {
-	echo '<li id=".$row["unique_id"]."><a href="#">'.$row["recipe_name"].'</a></li>';
+	echo '<li id="'.$row["unique_id"].'"><a href="#">'.$row["recipe_name"].'</a></li>';
 }
 
 ?>
@@ -41,7 +41,8 @@ while($row=$result->fetch_assoc()) {
 $getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id, DATE_FORMAT(recipe_instances.recipe_timestamp, '%c/%e') as timestamp, recipe_instances.recipe_timestamp
 	FROM recipe_instances
 	INNER JOIN master_recipes ON master_recipes.unique_id=recipe_instances.recipe_id
-	WHERE master_recipes.user_id='$sid'";
+	WHERE master_recipes.user_id='$sid'
+	ORDER BY recipe_instances.recipe_timestamp ASC";
 
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {
@@ -83,8 +84,19 @@ while($row=$result->fetch_assoc()) {
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
-		    AddList(id);
+		    AddRecipe(id);
 		});
+		function AddRecipe(recipe_id) {
+			jQuery.ajax({
+				type: "POST",
+				url: "post/addnewmenu.php",
+				data: {recipe_id: recipe_id},
+				cache: false,
+				success: function(response) {
+					window.location.reload(true);
+				}
+			})
+		}
 		$('#saveModal').click(function(event) {
 			var dp = $('#datepicker').datepicker('getDate');
 			var ts = moment(new Date(dp)).format("YYYY-MM-DD HH:mm:ss");
@@ -114,25 +126,14 @@ while($row=$result->fetch_assoc()) {
 				$('#rid').val(rid);
 			}
 		});
-		function AddList(location_id) {
-			jQuery.ajax({
-				type: "POST",
-				url: "post/addnewlistlocation.php",
-				data: {location_id: location_id},
-				cache: false,
-				success: function(response) {
-					window.location.reload(true);
-				}
-			})
-		}
     // taphold
     $('html').on('taphold', function(event) {
-        if($('#addMenu').hasClass('hidden')) {
-          $('#addMenu').removeClass('hidden');
+        if($('#addMeal').hasClass('hidden')) {
+          $('#addMeal').removeClass('hidden');
           $('.glyphicon-calendar').removeClass('hidden');
           $('.glyphicon-trash').removeClass('hidden');
         } else {
-          $('#addMenu').addClass('hidden');
+          $('#addMealsd').addClass('hidden');
           $('.glyphicon-calendar').addClass('hidden');
           $('.glyphicon-trash').addClass('hidden');
         }
@@ -142,17 +143,17 @@ while($row=$result->fetch_assoc()) {
 			// fixes conflict with li.list-group-item click function
 			event.preventDefault();
 			event.stopPropagation();
-			var myID = $(this).closest("li").attr("id");
+			var myID = $(this).closest("li").attr("instance_id");
 			var myTitle = $(this).closest("li").text();
 			if (confirm('Are you sure you want to delete '+myTitle+'?')) {
-				DeleteListLocation(myID);
+				DeleteMealInstance(myID);
 			}
 		})
-		function DeleteListLocation(location_instance_id) {
+		function DeleteMealInstance(recipe_instance_id) {
 			$.ajax({
 				type: "POST",
-				url: "post/deletelistlocation.php",
-				data: {location_instance_id: location_instance_id},
+				url: "post/deletemealinstance.php",
+				data: {id: recipe_instance_id},
 				cache: false,
 				success: function(response) {
 					window.location.reload(true);
