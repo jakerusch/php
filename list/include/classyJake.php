@@ -48,14 +48,13 @@ class classyJake {
 		if($_SERVER['REQUEST_URI']!=="/list/login.php" && $_SERVER['REQUEST_URI']!=="/list/register.php" && $_SERVER['REQUEST_URI']!=="/list/logout.php") {
 			// $navArr=array("Lists" => "listadmin.php", "Items" => "itemadmin.php", "Locations" => "locationadmin.php");
 			// $navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Recipes" => "recipesadmin.php");
-			$navArr=array("Items" => "itemadmin.php", "Locations" => "locationadmin.php", "Meals" => "meals.php", "Recipes" => "recipeadmin.php");
+			$navArr=array("Recipes" => "recipeadmin.php", "Locations" => "locationadmin.php", "Items" => "itemadmin.php");
 			$temp="<!-- Brand and toggle get grouped for better mobile display -->
 					<div class=\"navbar-header\">
-      				<a class=\"navbar-brand\" href=\"listadmin.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span>
-      				</a>
+      				<a class=\"navbar-brand\" href=\"listadmin.php\">The Short List <span class=\"glyphicon glyphicon-list-alt\"></span></a>
+							<a class=\"navbar-brand\" href=\"meals.php\">Meals <span class=\"glyphicon glyphicon-grain\"></span></a>
 					<button class=\"navbar-toggle collapsed\" aria-expanded=\"false\" aria-controls=\"navbar\" type=\"button\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
 						<span class=\"sr-only\">Toggle navigation</span>
-						<span class=\"icon-bar\"></span>
 						<span class=\"icon-bar\"></span>
 						<span class=\"icon-bar\"></span>
 						<span class=\"icon-bar\"></span>
