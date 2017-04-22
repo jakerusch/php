@@ -38,15 +38,16 @@ while($row=$result->fetch_assoc()) {
 <?php
 
 // get all location instances that have been created by the user
-$getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id, DATE_FORMAT(recipe_instances.recipe_timestamp, '%c/%e') as timestamp, recipe_instances.recipe_timestamp
+$getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id, DATE_FORMAT(recipe_instances.recipe_timestamp, '%b, %e') as timestamp, recipe_instances.recipe_timestamp, recipe_instances.hidden
 	FROM recipe_instances
 	INNER JOIN master_recipes ON master_recipes.unique_id=recipe_instances.recipe_id
 	WHERE master_recipes.user_id='$sid'
+	AND recipe_instances.hidden=FALSE
 	ORDER BY recipe_instances.recipe_timestamp ASC";
 
 $result = $conn->query($getList);
 while($row=$result->fetch_assoc()) {
-	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'">'.$row['timestamp'].' '.$row['recipe_name'].' <span class="glyphicon glyphicon-calendar pull-left hidden" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span><span class="glyphicon glyphicon-trash pull-right hidden"></span></li>';
+	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'">'.$row['recipe_name'].'<span class="glyphicon glyphicon-calendar pull-left hidden" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span><span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
 }
 
 ?>
@@ -81,6 +82,17 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
+		$('.text-primary').each(function(event) {
+			var today = moment().format("MMM, D");
+			var tomorrow = moment().add(1, 'days').format("MMM, D");
+			var itemDate = $(this).text();
+			var date = moment(itemDate).format("MMM, D");
+			if(itemDate==today) {
+				$(this).text('Today');
+			} else if(itemDate==tomorrow) {
+				$(this).text('Tomorrow');
+			}
+		});
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
@@ -132,12 +144,37 @@ while($row=$result->fetch_assoc()) {
           $('#addMeal').removeClass('hidden');
           $('.glyphicon-calendar').removeClass('hidden');
           $('.glyphicon-trash').removeClass('hidden');
+					$('.glyphicon-unchecked').addClass('hidden');
         } else {
-          $('#addMealsd').addClass('hidden');
+          $('#addMeal').addClass('hidden');
           $('.glyphicon-calendar').addClass('hidden');
           $('.glyphicon-trash').addClass('hidden');
+					$('.glyphicon-unchecked').removeClass('hidden');
         }
     });
+		// check item
+		$('h5.glyphicon-unchecked').click(function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var myID = $(this).closest('li').attr('instance_id');
+			var myTitle = $(this).closest('li').contents().get(0).nodeValue;
+			var ts = moment($(this).closest('li').attr('timestamp')).format("MMMM DD");
+			if(confirm('Do you want to archive the ' + ts + ' instance of ' + myTitle + '?')) {
+				ArchiveRecipe(myID);
+			}
+		});
+		// archive recipe
+		function ArchiveRecipe(recipe_instance_id) {
+			$.ajax({
+				type: "POST",
+				url: "post/updatemealhidden.php",
+				data: {id: recipe_instance_id},
+				cache: false,
+				success: function(response) {
+					window.location.reload(true);
+				}
+			})
+		}
 		// delete item
 		$("span.glyphicon-trash").click(function(event) {
 			// fixes conflict with li.list-group-item click function
