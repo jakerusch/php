@@ -22,6 +22,7 @@ $sql = "SELECT master_recipes.recipe_name, master_recipes.unique_id
   WHERE master_recipes.user_id='$sid'
   ORDER BY master_recipes.recipe_name ASC";
 $result=$conn->query($sql);
+$num_rows=$result->num_rows;
 while($row=$result->fetch_assoc()) {
 	echo '<li id="'.$row["unique_id"].'"><a href="#">'.$row["recipe_name"].'</a></li>';
 }
