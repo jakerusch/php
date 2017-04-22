@@ -22,7 +22,6 @@ $sql = "SELECT master_recipes.recipe_name, master_recipes.unique_id
   WHERE master_recipes.user_id='$sid'
   ORDER BY master_recipes.recipe_name ASC";
 $result=$conn->query($sql);
-$num_rows=$result->num_rows;
 while($row=$result->fetch_assoc()) {
 	echo '<li id="'.$row["unique_id"].'"><a href="#">'.$row["recipe_name"].'</a></li>';
 }
@@ -47,6 +46,7 @@ $getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_in
 	ORDER BY recipe_instances.recipe_timestamp ASC";
 
 $result = $conn->query($getList);
+$num_rows=$result->num_rows;
 while($row=$result->fetch_assoc()) {
 	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'">'.$row['recipe_name'].'<span class="glyphicon glyphicon-calendar pull-left hidden" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span><span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
 }
@@ -83,6 +83,9 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
+		if('<?php echo $num_rows; ?>'==0 && $('#addMeal').hasClass('hidden')) {
+			$('#addMeal').removeClass('hidden');
+		}
 		$('.text-primary').each(function(event) {
 			var today = moment().format("MMM, D");
 			var tomorrow = moment().add(1, 'days').format("MMM, D");
