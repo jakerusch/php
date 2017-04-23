@@ -94,10 +94,11 @@ h5 {
 			var itemDate = $(this).text();
 			var date = moment(itemDate).format("ddd, MMM D");
 			if(itemDate==today) {
-				$(this).html('<h5>Today</h5>')
+				$(this).text('Today')
 			} else if(itemDate==tomorrow) {
-				$(this).html('<h5>Tomorrow</h5>');
+				$(this).text('Tomorrow');
 			}
+			$(this).html('<h5>' + $(this).text() + '</h5>');
 		});
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
