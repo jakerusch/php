@@ -38,7 +38,7 @@ while($row=$result->fetch_assoc()) {
 <?php
 
 // get all location instances that have been created by the user
-$getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id, DATE_FORMAT(recipe_instances.recipe_timestamp, '%b, %e') as timestamp, recipe_instances.recipe_timestamp, recipe_instances.hidden
+$getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id, DATE_FORMAT(recipe_instances.recipe_timestamp, '%a, %b %e') as timestamp, recipe_instances.recipe_timestamp, recipe_instances.hidden
 	FROM recipe_instances
 	INNER JOIN master_recipes ON master_recipes.unique_id=recipe_instances.recipe_id
 	WHERE master_recipes.user_id='$sid'
@@ -83,14 +83,11 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-		if('<?php echo $num_rows; ?>'==0 && $('#addMeal').hasClass('hidden')) {
-			$('#addMeal').removeClass('hidden');
-		}
 		$('.text-primary').each(function(event) {
-			var today = moment().format("MMM, D");
-			var tomorrow = moment().add(1, 'days').format("MMM, D");
+			var today = moment().format("ddd, MMM D");
+			var tomorrow = moment().add(1, 'days').format("ddd, MMM D");
 			var itemDate = $(this).text();
-			var date = moment(itemDate).format("MMM, D");
+			var date = moment(itemDate).format("ddd, MMM D");
 			if(itemDate==today) {
 				$(this).text('Today');
 			} else if(itemDate==tomorrow) {
