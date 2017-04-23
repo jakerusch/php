@@ -48,7 +48,7 @@ $getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_in
 $result = $conn->query($getList);
 $num_rows=$result->num_rows;
 while($row=$result->fetch_assoc()) {
-	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'">'.$row['recipe_name'].'<span class="glyphicon glyphicon-calendar pull-left hidden" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span><span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
+	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="text-primary">'.$row['timestamp'].'</span> '.$row['recipe_name'].'<span class="glyphicon glyphicon-calendar pull-left hidden" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span><span class="glyphicon glyphicon-trash pull-right hidden"></span><span class="glyphicon glyphicon-unchecked pull-right"></span></li>';
 }
 
 ?>
@@ -81,6 +81,11 @@ while($row=$result->fetch_assoc()) {
 		</div>
 	</div>
 </div>
+<style>
+h5 {
+	display: inline;
+}
+</style>
 	<script>
 	$(function() {
 		$('.text-primary').each(function(event) {
@@ -89,9 +94,9 @@ while($row=$result->fetch_assoc()) {
 			var itemDate = $(this).text();
 			var date = moment(itemDate).format("ddd, MMM D");
 			if(itemDate==today) {
-				$(this).text('Today');
+				$(this).html('<h5>Today</h5>')
 			} else if(itemDate==tomorrow) {
-				$(this).text('Tomorrow');
+				$(this).html('<h5>Tomorrow</h5>');
 			}
 		});
 		$('#datepicker').datepicker();
@@ -154,11 +159,11 @@ while($row=$result->fetch_assoc()) {
         }
     });
 		// check item
-		$('h5.glyphicon-unchecked').click(function(event) {
+		$('.glyphicon-unchecked').click(function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var myID = $(this).closest('li').attr('instance_id');
-			var myTitle = $(this).closest('li').contents().get(0).nodeValue;
+			var myTitle = $(this).closest('li').contents().get(1).nodeValue;
 			var ts = moment($(this).closest('li').attr('timestamp')).format("MMMM DD");
 			if(confirm('Do you want to archive the ' + ts + ' instance of ' + myTitle + '?')) {
 				ArchiveRecipe(myID);
