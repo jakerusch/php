@@ -48,7 +48,7 @@ $getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_in
 $result = $conn->query($getList);
 $num_rows=$result->num_rows;
 while($row=$result->fetch_assoc()) {
-	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="text-primary">'.$row['timestamp'].'</span> '.$row['recipe_name'].'<span class="glyphicon glyphicon-calendar pull-left hidden" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span><span class="glyphicon glyphicon-trash pull-right hidden"></span><span class="glyphicon glyphicon-unchecked pull-right"></span></li>';
+	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span> '.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
 }
 
 ?>
@@ -81,11 +81,6 @@ while($row=$result->fetch_assoc()) {
 		</div>
 	</div>
 </div>
-<style>
-h5 {
-	display: inline;
-}
-</style>
 	<script>
 	$(function() {
 		$('.text-primary').each(function(event) {
@@ -98,7 +93,6 @@ h5 {
 			} else if(itemDate==tomorrow) {
 				$(this).text('Tomorrow');
 			}
-			$(this).html('<h5>' + $(this).text() + '</h5>');
 		});
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
@@ -139,9 +133,9 @@ h5 {
 				var text = $(this).attr('name');
 				var rid = $(this).attr('instance_id');
 				var ts = new Date($(this).attr('timestamp'));
-				var fDate = moment(ts);
+				var fDate = moment(ts).format('MM/DD/YYYY');
 				$('#currentDate').text(text);
-				$('#datepicker').val(fDate.format('MM/D/YYYY'));
+				$('#datepicker').val(fDate);
 				$('#rid').val(rid);
 			}
 		});
@@ -149,12 +143,10 @@ h5 {
     $('html').on('taphold', function(event) {
         if($('#addMeal').hasClass('hidden')) {
           $('#addMeal').removeClass('hidden');
-          $('.glyphicon-calendar').removeClass('hidden');
           $('.glyphicon-trash').removeClass('hidden');
 					$('.glyphicon-unchecked').addClass('hidden');
         } else {
           $('#addMeal').addClass('hidden');
-          $('.glyphicon-calendar').addClass('hidden');
           $('.glyphicon-trash').addClass('hidden');
 					$('.glyphicon-unchecked').removeClass('hidden');
         }
