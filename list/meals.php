@@ -33,23 +33,40 @@ while($row=$result->fetch_assoc()) {
 			  	</div>
 			</form>
 
-			<ul class="list-group" id="myLists">
-
 <?php
 
-// get all location instances that have been created by the user
-$getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id, DATE_FORMAT(recipe_instances.recipe_timestamp, '%a, %b %e') as timestamp, recipe_instances.recipe_timestamp, recipe_instances.hidden
-	FROM recipe_instances
-	INNER JOIN master_recipes ON master_recipes.unique_id=recipe_instances.recipe_id
-	WHERE master_recipes.user_id='$sid'
-	AND recipe_instances.hidden=FALSE
-	ORDER BY recipe_instances.recipe_timestamp ASC";
+$dates="SELECT DATE_FORMAT(recipe_instances.recipe_timestamp, '%a, %b %e') as date, COUNT(recipe_instances.recipe_timestamp) as count,
+  recipe_instances.recipe_timestamp
+  FROM recipe_instances
+  WHERE recipe_instances.hidden=FALSE
+  GROUP BY date
+  ORDER BY recipe_instances.recipe_timestamp ASC";
+$dateResult=$conn->query($dates);
 
-$result = $conn->query($getList);
-$num_rows=$result->num_rows;
-while($row=$result->fetch_assoc()) {
-	echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span> '.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
-}
+while($dateRow=$dateResult->fetch_assoc()) {
+  echo '<ul class="list-group">';
+  // get all location instances that have been created by the user
+  $getList="SELECT master_recipes.recipe_name, master_recipes.unique_id, recipe_instances.recipe_instance_id,
+    DATE_FORMAT(recipe_instances.recipe_timestamp, '%a, %b %e') as timestamp, recipe_instances.recipe_timestamp,
+    recipe_instances.hidden
+    FROM recipe_instances
+    INNER JOIN master_recipes ON master_recipes.unique_id=recipe_instances.recipe_id
+    WHERE master_recipes.user_id='$sid'
+    AND DATE_FORMAT(recipe_instances.recipe_timestamp, '%a, %b %e')='".$dateRow['date']."'
+    AND recipe_instances.hidden=FALSE
+    ORDER BY recipe_instances.recipe_timestamp ASC";
+  $result = $conn->query($getList);
+  $i=0;
+  while($row=$result->fetch_assoc()) {
+      if($i==0) {
+        echo '<li class="list-group-item disabled">'.$row['timestamp'].'<span class="badge">'.$dateRow['count'].'</span></li>';
+      }
+      // echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span>'.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
+      echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span>'.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><span class="glyphicon glyphicon-unchecked pull-right"></span></li>';
+      $i++;
+    }
+    echo '</ul>';
+  }
 
 ?>
 
@@ -77,24 +94,24 @@ while($row=$result->fetch_assoc()) {
   </div>
 </div>
 
-			</ul>
 		</div>
 	</div>
 </div>
 	<script>
 	$(function() {
-		$('.text-primary').each(function(event) {
-			var today = moment().format("ddd, MMM D");
-			var tomorrow = moment().add(1, 'days').format("ddd, MMM D");
-			var itemDate = $(this).text();
-			var date = moment(itemDate).format("ddd, MMM D");
+		$('.disabled').each(function(event) {
+			var today = moment().format("M/D");
+      var tomorrow = moment().add(1, 'days').format("M/D");
+      var itemDate = moment($(this).closest('li').contents().get(0).nodeValue).format("M/D");
 			if(itemDate==today) {
-				$(this).text('Today')
+				$(this).closest('li').contents().get(0).nodeValue = 'Today';
 			} else if(itemDate==tomorrow) {
-				$(this).text('Tomorrow');
-			}
+				$(this).closest('li').contents().get(0).nodeValue = 'Tomorrow';
+			} else if(itemDate<today) {
+        $(this).closest('li').removeClass('disabled').addClass('list-group-item-danger');
+      }
 		});
-		$('#datepicker').datepicker();
+		$('#datepicker').datepicker("getDate");
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
 		    AddRecipe(id);
@@ -125,7 +142,7 @@ while($row=$result->fetch_assoc()) {
 			})
 		});
 		// fix for modal
-		$("li.list-group-item").click(function(event) {
+		$("li.list-group-item").not('.disabled').click(function(event) {
 			var id = $(this).attr("id");
 			if(event.target.nodeName=='LI') {
 				window.location.href = "recipe.php?id="+id;
