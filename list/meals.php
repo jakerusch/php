@@ -111,7 +111,7 @@ while($dateRow=$dateResult->fetch_assoc()) {
         $(this).closest('li').removeClass('disabled').addClass('list-group-item-danger');
       }
 		});
-		$('#datepicker').datepicker("getDate");
+		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
 		    AddRecipe(id);
