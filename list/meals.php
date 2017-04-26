@@ -136,7 +136,7 @@ while($dateRow=$dateResult->fetch_assoc()) {
 			})
 		}
 		$('#saveModal').click(function(event) {
-			var dp = $('#datepicker').datepicker('getDate');
+			var dp = Date.parseExact($('#datepicker').datepicker('getDate'), "MM-dd-yyyy");
 			var ts = moment(new Date(dp)).format("YYYY-MM-DD HH:mm:ss");
 			var id = $('#rid').val();
 			$.ajax({
@@ -150,7 +150,7 @@ while($dateRow=$dateResult->fetch_assoc()) {
 			})
 		});
 		// fix for modal
-		$("li.list-group-item").not('.disabled').click(function(event) {
+		$("li.list-group-item").not('.disabled,.list-group-item-danger').click(function(event) {
 			var id = $(this).attr("id");
 			if(event.target.nodeName=='LI') {
 				window.location.href = "recipe.php?id="+id;
