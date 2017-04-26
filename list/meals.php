@@ -58,15 +58,35 @@ while($dateRow=$dateResult->fetch_assoc()) {
   $result = $conn->query($getList);
   $i=0;
   while($row=$result->fetch_assoc()) {
-      if($i==0) {
-        echo '<li class="list-group-item disabled">'.$row['timestamp'].'<span class="badge">'.$dateRow['count'].'</span></li>';
-      }
-      // echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span>'.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><h5 class="glyphicon glyphicon-unchecked pull-right"></h5><h5 class="text-primary">'.$row['timestamp'].'</h5></li>';
-      echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span>'.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><span class="glyphicon glyphicon-unchecked pull-right"></span></li>';
-      $i++;
+		$today = new DateTime();
+		$today->setTime(0,0,0);
+		$itemDate = new DateTime($dateRow['recipe_timestamp']);
+		$itemDate->setTime(0,0,0);
+		$difference = $today->diff($itemDate)->format("%r%a");
+		$color='disabled';
+
+		if($difference==0) {
+			$date='Today';
+		} elseif($difference==-1) {
+			$date='Yesterday';
+			$color='list-group-item-danger';
+		} elseif($difference==1) {
+			$date='Tomorrow';
+		} elseif($difference<-1) {
+			$date=$row['timestamp'];
+			$color='list-group-item-danger';
+		} else {
+			$date=$row['timestamp'];
+		}
+
+    if($i==0) {
+      echo '<li class="list-group-item '.$color.'">'.$date.'<span class="badge">'.$dateRow['count'].'</span></li>';
     }
-    echo '</ul>';
+    echo '<li class="list-group-item" id="'.$row['unique_id'].'" instance_id="'.$row['recipe_instance_id'].'" timestamp="'.$row['recipe_timestamp'].'" name="'.$row['recipe_name'].'"><span class="glyphicon glyphicon-calendar pull-left" data-toggle="modal" data-target="#myModal" id="'.$row['recipe_instance_id'].'"></span>'.$row['recipe_name'].'<span class="glyphicon glyphicon-trash pull-right hidden"></span><span class="glyphicon glyphicon-unchecked pull-right"></span></li>';
+    $i++;
   }
+  echo '</ul>';
+}
 
 ?>
 
@@ -99,18 +119,6 @@ while($dateRow=$dateResult->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-		$('.disabled').each(function(event) {
-			var today = moment().format("M/D");
-      var tomorrow = moment().add(1, 'days').format("M/D");
-      var itemDate = moment($(this).closest('li').contents().get(0).nodeValue).format("M/D");
-			if(itemDate==today) {
-				$(this).closest('li').contents().get(0).nodeValue = 'Today';
-			} else if(itemDate==tomorrow) {
-				$(this).closest('li').contents().get(0).nodeValue = 'Tomorrow';
-			} else if(itemDate<today) {
-        $(this).closest('li').removeClass('disabled').addClass('list-group-item-danger');
-      }
-		});
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
