@@ -136,7 +136,7 @@ while($dateRow=$dateResult->fetch_assoc()) {
 			})
 		}
 		$('#saveModal').click(function(event) {
-			var dp = Date.parseExact($('#datepicker').datepicker('getDate'), "MM-dd-yyyy");
+			var dp = new Date($('#datepicker').datepicker('getDate').replace(/-/g, "/"));
 			var ts = moment(new Date(dp)).format("YYYY-MM-DD HH:mm:ss");
 			var id = $('#rid').val();
 			$.ajax({
