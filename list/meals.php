@@ -58,10 +58,13 @@ while($dateRow=$dateResult->fetch_assoc()) {
   $result = $conn->query($getList);
   $i=0;
   while($row=$result->fetch_assoc()) {
+		date_default_timezone_set('America/Chicago');
 		$today = new DateTime();
 		$today->setTime(0,0,0);
+		// $today=date_timezone_set($today, timezone_open('America/Chicago'));
 		$itemDate = new DateTime($dateRow['recipe_timestamp']);
 		$itemDate->setTime(0,0,0);
+		// $itemDate=date_timezone_set($itemDate, timezone_open('America/Chicago'));
 		$difference = $today->diff($itemDate)->format("%r%a");
 		$color='disabled';
 
