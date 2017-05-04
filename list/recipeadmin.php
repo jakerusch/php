@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-      <form class="well hidden" id="addMenu">
+      <form class="well" id="addMenu">
         <button type="submit" class="btn btn-default" id="showImportRecipe">Import</button>
         <button type="submit" class="btn btn-default" id="showAddManually">Add Manually</button>
       </form>
@@ -80,23 +80,6 @@ while($row=$result->fetch_assoc()) {
 			var title = $(this).text();
 			window.location.href = "recipe.php?id="+id;
 		})
-    // taphold
-    $('html').on('taphold', function(event) {
-      var target = $(event.target);
-      if($('#addMenu').hasClass('hidden')) {
-        $('#addMenu').removeClass('hidden');
-        $('#manuallyAddNewRecipe').addClass('hidden');
-        $('#importNewRecipe').addClass('hidden');
-        $('#showImportRecipe').removeClass('disabled');
-        $('#showAddManually').removeClass('disabled');
-      } else {
-        $('#addMenu').addClass('hidden');
-        $('#manuallyAddNewRecipe').addClass('hidden');
-        $('#importNewRecipe').addClass('hidden');
-        $('#showImportRecipe').removeClass('disabled');
-        $('#showAddManually').removeClass('disabled');
-      }
-    });
 		// add new list
 		$("#importNewRecipe").submit(function(event) {
       // prevent callback

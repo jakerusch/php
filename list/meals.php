@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-			<form class="well hidden" id="addMeal">
+			<form class="well" id="addMeal">
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Create New List <span class="caret"></span></button>
@@ -169,12 +169,10 @@ while($dateRow=$dateResult->fetch_assoc()) {
 		});
     // taphold
     $('html').on('taphold', function(event) {
-        if($('#addMeal').hasClass('hidden')) {
-          $('#addMeal').removeClass('hidden');
+			if($('.glyphicon-trash').hasClass('hidden')) {
           $('.glyphicon-trash').removeClass('hidden');
 					$('.glyphicon-unchecked').addClass('hidden');
         } else {
-          $('#addMeal').addClass('hidden');
           $('.glyphicon-trash').addClass('hidden');
 					$('.glyphicon-unchecked').removeClass('hidden');
         }
