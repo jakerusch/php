@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-			<form class="well hidden" id="addMenu">
+			<form class="well" id="addMenu">
 				<div class="form-group">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Create New List <span class="caret"></span></button>
@@ -73,15 +73,15 @@ while($row=$result->fetch_assoc()) {
 				}
 			})
 		}
-		// taphold
-    $('html').on('taphold', function(event) {
-      var target = $(event.target);
-      if($('#addMenu').hasClass('hidden')) {
-        $('#addMenu').removeClass('hidden');
-      } else {
-        $('#addMenu').addClass('hidden');
-      }
-    });
+		// // taphold
+    // $('html').on('taphold', function(event) {
+    //   var target = $(event.target);
+    //   if($('#addMenu').hasClass('hidden')) {
+    //     $('#addMenu').removeClass('hidden');
+    //   } else {
+    //     $('#addMenu').addClass('hidden');
+    //   }
+    // });
 		// delete item
 		$("span.glyphicon-trash").click(function(event) {
 			// fixes conflict with li.list-group-item click function

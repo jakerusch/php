@@ -8,9 +8,9 @@ $sid=$_SESSION['user_id'];
 
 ?>
 
-			<form class="well hidden" id="addNewLocation">
+			<form class="well" id="addNewLocation">
 				<div class="form-group">
-					<label for="locationTitle">Add New Location</label>
+					<label for="locationTitle">Add Location</label>
 					<input type="text" class="form-control" id="locationTitle" name="locationTitle" placeholder="Location Name">
 				</div>
 				<button type="submit" class="btn btn-default" id="addLocation"><span class="glyphicon glyphicon-plus"></span> Add</button>
@@ -33,17 +33,18 @@ while($row=$result->fetch_assoc()) {
 </div>
 	<script>
 	$(function() {
-		// taphold
-    $('html').on('taphold', function(event) {
-      var target = $(event.target);
-      if($('#addNewLocation').hasClass('hidden')) {
-        $('#addNewLocation').removeClass('hidden');
-				// set focus on input box
-				$('#locationTitle').focus();
-      } else {
-        $('#addNewLocation').addClass('hidden');
-      }
-    });
+		$('#locationTitle').focus();
+		// // taphold
+    // $('html').on('taphold', function(event) {
+    //   var target = $(event.target);
+    //   if($('#addNewLocation').hasClass('hidden')) {
+    //     $('#addNewLocation').removeClass('hidden');
+		// 		// set focus on input box
+		// 		$('#locationTitle').focus();
+    //   } else {
+    //     $('#addNewLocation').addClass('hidden');
+    //   }
+    // });
 		// direct to location.php when li is clicked
 		$("li.list-group-item").click(function(event) {
 			var id = $(this).attr("id");

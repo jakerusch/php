@@ -11,7 +11,7 @@ $sid=$_SESSION['user_id'];
 			<form class="well" id="addMeal">
 				<div class="form-group">
 					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Create New List <span class="caret"></span></button>
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdown" name="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Add New Meal <span class="caret"></span></button>
 					  	<ul class="dropdown-menu" aria-labelledby="dropdown">
 
 <?php
