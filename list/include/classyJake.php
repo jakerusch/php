@@ -113,9 +113,6 @@ echo ucwords($this->title);
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		<!-- jquery taphold -->
 			<script src="js/jquery-taphold-master/taphold.js"></script>
-		<!-- jquery bootstrap add clear -->
-			<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.js"></script>
-			<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.min.js"></script>
 		<!-- bootbox -->
 			<script src="js/bootbox.min.js"></script>
 	<!-- jquery mobile -->

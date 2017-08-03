@@ -117,11 +117,17 @@ while($dateRow=$dateResult->fetch_assoc()) {
   </div>
 </div>
 
+
+<div class="box">TEST</div>
+
 		</div>
 	</div>
 </div>
 	<script>
 	$(function() {
+		$('.box').bind('tap', function() {
+			alert('touchableend');
+		});
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
@@ -167,16 +173,35 @@ while($dateRow=$dateResult->fetch_assoc()) {
 				$('#rid').val(rid);
 			}
 		});
-    // taphold
-    $('html').on('taphold', function(event) {
-			if($('.glyphicon-trash').hasClass('hidden')) {
-          $('.glyphicon-trash').removeClass('hidden');
-					$('.glyphicon-unchecked').addClass('hidden');
-        } else {
-          $('.glyphicon-trash').addClass('hidden');
-					$('.glyphicon-unchecked').removeClass('hidden');
-        }
-    });
+    // // taphold
+    // $('html').on('taphold', function(event) {
+		// 	if($('.glyphicon-trash').hasClass('hidden')) {
+    //       $('.glyphicon-trash').removeClass('hidden');
+		// 			$('.glyphicon-unchecked').addClass('hidden');
+    //     } else {
+    //       $('.glyphicon-trash').addClass('hidden');
+		// 			$('.glyphicon-unchecked').removeClass('hidden');
+    //     }
+    // });
+		var down;
+    var up;
+    $('html')
+    .mousedown(function() {
+      down = new Date().getTime();
+    })
+    .mouseup(function() {
+      up = new Date().getTime();
+      var timesince = up - down;
+      if(timesince>750) {
+        if($('.glyphicon-trash').hasClass('hidden')) {
+            $('.glyphicon-trash').removeClass('hidden');
+  					$('.glyphicon-unchecked').addClass('hidden');
+          } else {
+            $('.glyphicon-trash').addClass('hidden');
+  					$('.glyphicon-unchecked').removeClass('hidden');
+          }
+      }
+    });		
 		// check item
 		$('.glyphicon-unchecked').click(function(event) {
 			event.preventDefault();
