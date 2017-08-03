@@ -103,7 +103,6 @@ echo ucwords($this->title);
 // continue printing page header
 		echo <<<END
 	</title>
-
 	<!-- jQuery -->
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 	<!-- Latest compiled and minified CSS -->
@@ -112,26 +111,32 @@ echo ucwords($this->title);
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <!-- jquery mobile -->
-  	<!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		<!-- jquery taphold -->
+			<script src="js/jquery-taphold-master/taphold.js"></script>
+		<!-- jquery bootstrap add clear -->
+			<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.js"></script>
+			<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.min.js"></script>
+		<!-- bootbox -->
+			<script src="js/bootbox.min.js"></script>
+	<!-- jquery mobile -->
+		<!-- <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+		<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 	<!-- jquery sortable -->
-  	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<!-- jquery UI Touch Punch (fix for sortable on touch devices), must be after jquery and jquery-ui -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-	<!-- jquery taphold -->
-		<script src="js/jquery-taphold-master/taphold.js"></script>
 	<!-- jquery bootstrap add clear -->
 		<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.js"></script>
 		<script src="js/bootstrap-add-clear-1.0.7/bootstrap-add-clear.min.js"></script>
-	<!-- bootbox -->
-		<script src="js/bootbox.min.js"></script>
 	<!-- moment.js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+	<!-- datetimepicker -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 	<!-- icons -->
-		<link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 		<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 		<link rel="apple-touch-icon" sizes="57x57" href="img/apple-touch-icon-57x57.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
