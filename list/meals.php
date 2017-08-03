@@ -117,17 +117,11 @@ while($dateRow=$dateResult->fetch_assoc()) {
   </div>
 </div>
 
-
-<div class="box">TEST</div>
-
 		</div>
 	</div>
 </div>
 	<script>
 	$(function() {
-		$('.box').bind('tap', function() {
-			alert('touchableend');
-		});
 		$('#datepicker').datepicker();
 		$(".dropdown li").click(function() {
 		    var id = $(this).attr("id");
@@ -201,7 +195,7 @@ while($dateRow=$dateResult->fetch_assoc()) {
   					$('.glyphicon-unchecked').removeClass('hidden');
           }
       }
-    });		
+    });
 		// check item
 		$('.glyphicon-unchecked').click(function(event) {
 			event.preventDefault();
