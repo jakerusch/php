@@ -8,6 +8,7 @@ $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
 echo'<div class="well">';
+echo '<button id="toggle" class="btn btn-default">Toggle</button><br /><br />';
 echo '<ul class="list-group" id="title">';
 
 // get title
@@ -193,35 +194,9 @@ $(function() {
       });
     }
   })
-  var down;
-  var up;
-  // hold (for desktop)
-  $('html')
-  .mousedown(function() {
-    down = new Date().getTime();
-  })
-  .mouseup(function() {
-    up = new Date().getTime();
-    var timesince = up - down;
-    if(timesince>750) {
-      var target = $(event.target);
-      if(target.is(':not(span)')) {
-        if($('.hide_button').hasClass('hidden')) {
-          $('.glyphicon-menu-hamburger').removeClass('hidden');
-          $('.glyphicon-edit').removeClass('hidden');
-          $('.glyphicon-trash').removeClass('hidden');
-          $('.hide_button').removeClass('hidden');
-        } else {
-          $('.glyphicon-menu-hamburger').addClass('hidden');
-          $('.glyphicon-edit').addClass('hidden');
-          $('.glyphicon-trash').addClass('hidden');
-          $('.hide_button').addClass('hidden');
-        }
-      }
-    }
-  });
-  // taphold (for mobile)
-  $('html').on('taphold', function(event) {
+  $('#toggle').on('click', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
     var target = $(event.target);
     if(target.is(':not(span)')) {
       if($('.hide_button').hasClass('hidden')) {
@@ -237,6 +212,50 @@ $(function() {
       }
     }
   });
+  // var down;
+  // var up;
+  // // hold (for desktop)
+  // $('html')
+  // .mousedown(function() {
+  //   down = new Date().getTime();
+  // })
+  // .mouseup(function() {
+  //   up = new Date().getTime();
+  //   var timesince = up - down;
+  //   if(timesince>750) {
+  //     var target = $(event.target);
+  //     if(target.is(':not(span)')) {
+  //       if($('.hide_button').hasClass('hidden')) {
+  //         $('.glyphicon-menu-hamburger').removeClass('hidden');
+  //         $('.glyphicon-edit').removeClass('hidden');
+  //         $('.glyphicon-trash').removeClass('hidden');
+  //         $('.hide_button').removeClass('hidden');
+  //       } else {
+  //         $('.glyphicon-menu-hamburger').addClass('hidden');
+  //         $('.glyphicon-edit').addClass('hidden');
+  //         $('.glyphicon-trash').addClass('hidden');
+  //         $('.hide_button').addClass('hidden');
+  //       }
+  //     }
+  //   }
+  // });
+  // // taphold (for mobile)
+  // $('html').on('taphold', function(event) {
+  //   var target = $(event.target);
+  //   if(target.is(':not(span)')) {
+  //     if($('.hide_button').hasClass('hidden')) {
+  //       $('.glyphicon-menu-hamburger').removeClass('hidden');
+  //       $('.glyphicon-edit').removeClass('hidden');
+  //       $('.glyphicon-trash').removeClass('hidden');
+  //       $('.hide_button').removeClass('hidden');
+  //     } else {
+  //       $('.glyphicon-menu-hamburger').addClass('hidden');
+  //       $('.glyphicon-edit').addClass('hidden');
+  //       $('.glyphicon-trash').addClass('hidden');
+  //       $('.hide_button').addClass('hidden');
+  //     }
+  //   }
+  // });
   // double-click
   var mylatesttap;
   $(".list-group-item").click(function() {

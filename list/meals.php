@@ -29,6 +29,7 @@ while($row=$result->fetch_assoc()) {
 ?>
 
 					  	</ul>
+							<span class="pull-right"><button id="toggle" class="btn btn-default">Toggle</button></span>
 					</div>
 			  	</div>
 			</form>
@@ -109,8 +110,8 @@ while($dateRow=$dateResult->fetch_assoc()) {
 					<input hidden id="rid"></input>
         </div>
         <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="saveModal">Save</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -167,8 +168,9 @@ while($dateRow=$dateResult->fetch_assoc()) {
 				$('#rid').val(rid);
 			}
 		});
-    // taphold (for mobile)
-    $('html').on('taphold', function(event) {
+		$('#toggle').on('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
 			if($('.glyphicon-trash').hasClass('hidden')) {
           $('.glyphicon-trash').removeClass('hidden');
 					$('.glyphicon-unchecked').addClass('hidden');
@@ -176,27 +178,37 @@ while($dateRow=$dateResult->fetch_assoc()) {
           $('.glyphicon-trash').addClass('hidden');
 					$('.glyphicon-unchecked').removeClass('hidden');
         }
-    });
-		var down;
-    var up;
-		// hold (for desktop)
-    $('html')
-    .mousedown(function() {
-      down = new Date().getTime();
-    })
-    .mouseup(function() {
-      up = new Date().getTime();
-      var timesince = up - down;
-      if(timesince>750) {
-        if($('.glyphicon-trash').hasClass('hidden')) {
-            $('.glyphicon-trash').removeClass('hidden');
-  					$('.glyphicon-unchecked').addClass('hidden');
-          } else {
-            $('.glyphicon-trash').addClass('hidden');
-  					$('.glyphicon-unchecked').removeClass('hidden');
-          }
-      }
-    });
+		});
+    // // taphold (for mobile)
+    // $('html').on('taphold', function(event) {
+		// 	if($('.glyphicon-trash').hasClass('hidden')) {
+    //       $('.glyphicon-trash').removeClass('hidden');
+		// 			$('.glyphicon-unchecked').addClass('hidden');
+    //     } else {
+    //       $('.glyphicon-trash').addClass('hidden');
+		// 			$('.glyphicon-unchecked').removeClass('hidden');
+    //     }
+    // });
+		// var down;
+    // var up;
+		// // hold (for desktop)
+    // $('html')
+    // .mousedown(function() {
+    //   down = new Date().getTime();
+    // })
+    // .mouseup(function() {
+    //   up = new Date().getTime();
+    //   var timesince = up - down;
+    //   if(timesince>750) {
+    //     if($('.glyphicon-trash').hasClass('hidden')) {
+    //         $('.glyphicon-trash').removeClass('hidden');
+  	// 				$('.glyphicon-unchecked').addClass('hidden');
+    //       } else {
+    //         $('.glyphicon-trash').addClass('hidden');
+  	// 				$('.glyphicon-unchecked').removeClass('hidden');
+    //       }
+    //   }
+    // });
 		// check item
 		$('.glyphicon-unchecked').click(function(event) {
 			event.preventDefault();
