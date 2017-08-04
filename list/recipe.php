@@ -8,7 +8,7 @@ $sid=$_SESSION['user_id'];
 $id=$_GET['id'];
 
 echo'<div class="well">';
-echo '<button id="toggle" class="btn btn-default">Toggle</button><br /><br />';
+echo '<div class="pull-right"><button id="toggle" class="btn btn-default">Toggle</button></div><br /><br />';
 echo '<ul class="list-group" id="title">';
 
 // get title
