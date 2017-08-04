@@ -193,9 +193,9 @@ $(function() {
       });
     }
   })
-
   var down;
   var up;
+  // hold (for desktop)
   $('html')
   .mousedown(function() {
     down = new Date().getTime();
@@ -220,25 +220,23 @@ $(function() {
       }
     }
   });
-
-
-  // // taphold
-  // $('html').on('taphold', function(event) {
-  //   var target = $(event.target);
-  //   if(target.is(':not(span)')) {
-  //     if($('.hide_button').hasClass('hidden')) {
-  //       $('.glyphicon-menu-hamburger').removeClass('hidden');
-  //       $('.glyphicon-edit').removeClass('hidden');
-  //       $('.glyphicon-trash').removeClass('hidden');
-  //       $('.hide_button').removeClass('hidden');
-  //     } else {
-  //       $('.glyphicon-menu-hamburger').addClass('hidden');
-  //       $('.glyphicon-edit').addClass('hidden');
-  //       $('.glyphicon-trash').addClass('hidden');
-  //       $('.hide_button').addClass('hidden');
-  //     }
-  //   }
-  // });
+  // taphold (for mobile)
+  $('html').on('taphold', function(event) {
+    var target = $(event.target);
+    if(target.is(':not(span)')) {
+      if($('.hide_button').hasClass('hidden')) {
+        $('.glyphicon-menu-hamburger').removeClass('hidden');
+        $('.glyphicon-edit').removeClass('hidden');
+        $('.glyphicon-trash').removeClass('hidden');
+        $('.hide_button').removeClass('hidden');
+      } else {
+        $('.glyphicon-menu-hamburger').addClass('hidden');
+        $('.glyphicon-edit').addClass('hidden');
+        $('.glyphicon-trash').addClass('hidden');
+        $('.hide_button').addClass('hidden');
+      }
+    }
+  });
   // double-click
   var mylatesttap;
   $(".list-group-item").click(function() {

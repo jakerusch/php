@@ -167,18 +167,19 @@ while($dateRow=$dateResult->fetch_assoc()) {
 				$('#rid').val(rid);
 			}
 		});
-    // // taphold
-    // $('html').on('taphold', function(event) {
-		// 	if($('.glyphicon-trash').hasClass('hidden')) {
-    //       $('.glyphicon-trash').removeClass('hidden');
-		// 			$('.glyphicon-unchecked').addClass('hidden');
-    //     } else {
-    //       $('.glyphicon-trash').addClass('hidden');
-		// 			$('.glyphicon-unchecked').removeClass('hidden');
-    //     }
-    // });
+    // taphold (for mobile)
+    $('html').on('taphold', function(event) {
+			if($('.glyphicon-trash').hasClass('hidden')) {
+          $('.glyphicon-trash').removeClass('hidden');
+					$('.glyphicon-unchecked').addClass('hidden');
+        } else {
+          $('.glyphicon-trash').addClass('hidden');
+					$('.glyphicon-unchecked').removeClass('hidden');
+        }
+    });
 		var down;
     var up;
+		// hold (for desktop)
     $('html')
     .mousedown(function() {
       down = new Date().getTime();
