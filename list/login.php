@@ -42,13 +42,13 @@ $obj->createPage($pageName);
 				cache: false,
 				success: function(response) {
 					if(response==1) {
-						window.location.href = "listadmin.php";
+						window.location.href = "meals.php";
 					} else {
 						$("#error").text("Username or Password is invalid.");
 					}
 				}
 			});
-		}			
+		}
 	});
 	</script>
 	</body>
